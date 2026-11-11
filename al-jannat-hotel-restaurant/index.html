@@ -178,6 +178,7 @@
     html{scroll-behavior:auto}
   }
 </style>
+<style>body{padding-bottom:70px!important}</style>
 </head>
 <body>
 
@@ -596,5 +597,86 @@
   render();
 })();
 </script>
+
+<style>
+.mz-bar{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;gap:10px;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:rgba(255,255,255,.97);border-top:1px solid #ddd;box-shadow:0 -4px 18px rgba(0,0,0,.15)}
+.mz-bar a{flex:1;text-align:center;text-decoration:none;font-weight:700;font-size:17px;padding:13px 8px;border-radius:12px;color:#fff}
+.mz-call{background:#1a7f37}.mz-wa{background:#25d366;color:#062b16}
+.mz-pay{max-width:900px;margin:34px auto;padding:26px 20px;background:#fff8e6;border:2px solid #e8b84b;border-radius:16px;font-family:inherit}
+.mz-pay h2{margin:0 0 6px;font-size:24px}
+.mz-pay ol{margin:12px 0 12px 20px;line-height:1.65}
+.mz-pay .mz-btns{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 8px}
+.mz-pay .mz-btns a,.mz-order-btn{display:inline-block;text-decoration:none;font-weight:700;font-size:17px;padding:13px 18px;border-radius:12px;color:#fff}
+.mz-order-btn{background:#25d366;color:#062b16;border:0;cursor:pointer}
+.mz-order-btn.call-only{background:#1a7f37;color:#fff}
+.mz-note{font-size:14px;color:#555;line-height:1.55}
+</style>
+
+<section class="mz-pay" id="mz-order-pay">
+<h2>📲 Order on WhatsApp &amp; How to Pay</h2>
+<p>Make your own order right here on this website — pick your items, then send the order straight to the restaurant.</p>
+<ol><li><strong>Select your room, table or food items</strong> on this page, then tap <strong>“Call to Place My Order / Booking”</strong> and read out your selection on the call.</li><li><strong>The restaurant confirms your booking on the call</strong> — the total bill and the timing.</li><li><strong>Pay the way the restaurant confirms on the call.</strong> They will tell you their payment details. Only pay on the details the restaurant itself gives you — never pay anyone else.</li><li><strong>Keep the restaurant's number saved</strong> so you can call again about your booking or order.</li></ol>
+<div class="mz-btns">
+<a class="mz-call" style="background:#1a7f37" href="tel:0463004545">📞 Call — 046-3004545</a>
+
+</div>
+<a class="mz-order-btn call-only" href="tel:0463004545">📞 Call to Place My Order / Booking</a>
+<p class="mz-note">This restaurant has a landline number only, so there is no WhatsApp chat — please order by phone call.</p>
+</section>
+<div class="mz-bar"><a class="mz-call" href="tel:0463004545">📞 Call Now</a></div>
+<script>
+(function(){
+  var WA = "";
+  var NAME = "Al-Jannat Hotel & Restaurant";
+  var SUMMARY = ['#summary-list'].map(function(s){return s;});
+  var NAME_INPUTS = ['#f-name'];
+  var PHONE_INPUTS = ['#f-phone'];
+  function el(sel){ try { return document.querySelector(sel); } catch(e){ return null; } }
+  function val(sel){ var n = el(sel); return n ? (n.value || "").trim() : ""; }
+  function getSummary(){
+    for (var i=0;i<SUMMARY.length;i++){
+      var n = el(SUMMARY[i]); if(!n) continue;
+      var t = (n.tagName === "TEXTAREA" ? n.value : n.innerText || n.textContent || "").trim();
+      if (t && t.length > 3) return t;
+    }
+    return "";
+  }
+  function getName(){ for (var i=0;i<NAME_INPUTS.length;i++){ var v=val(NAME_INPUTS[i]); if(v) return v; } return ""; }
+  function getPhone(){ for (var i=0;i<PHONE_INPUTS.length;i++){ var v=val(PHONE_INPUTS[i]); if(v) return v; } return ""; }
+  function sendOrder(){
+    var summary = getSummary();
+    if (!summary || /no items selected|your order is empty|select (an|at least)/i.test(summary)) {
+      alert("Please select at least one item first, then tap 'Order My Selected Order on WhatsApp'.");
+      return;
+    }
+    var lines = ["Assalam-o-Alaikum, I would like to place an order at " + NAME + ":", "", summary];
+    var nm = getName(); if (nm) lines.push("", "Name: " + nm);
+    var ph = getPhone(); if (ph) lines.push("My phone: " + ph);
+    lines.push("", "Please confirm the total bill, payment details and delivery / pickup time. Shukriya!");
+    window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent(lines.join("\n")), "_blank");
+  }
+  document.addEventListener("click", function(e){
+    var t = e.target && e.target.closest ? e.target.closest("[data-mz-order]") : null;
+    if (t) { e.preventDefault(); sendOrder(); }
+  });
+  // Add the same WhatsApp order button right next to the existing Copy button.
+  var copyBtn = el('#copy-btn');
+  if (copyBtn && WA) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "mz-order-btn"; b.setAttribute("data-mz-order","1");
+    b.textContent = "✅ Order My Selected Order on WhatsApp";
+    b.style.marginLeft = "8px";
+    copyBtn.parentNode.insertBefore(b, copyBtn.nextSibling);
+  }
+  // WhatsApp button in the pay section opens a plain chat (no order text).
+  document.querySelectorAll("[data-mz-wa]").forEach(function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      window.open("https://wa.me/" + WA + "?text=" + encodeURIComponent("Assalam-o-Alaikum, I saw the website of " + NAME + ". I would like to place an order."), "_blank");
+    });
+  });
+})();
+</script>
+
 </body>
 </html>
