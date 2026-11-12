@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calling Bot — Pirmahal Demo</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+  h1{font-size:26px;margin-bottom:4px}
+  .sub{color:#94a3b8;font-size:14px;margin-bottom:18px}
+  .card{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:16px;margin-bottom:14px}
+  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  label{font-size:13px;color:#94a3b8;display:block;margin-bottom:5px}
+  select,button,input[type=text]{font-size:15px;padding:10px 12px;border-radius:9px;border:1px solid #475569;background:#0f172a;color:#e2e8f0}
+  select{flex:1;min-width:200px}
+  button{cursor:pointer;background:#16a34a;border-color:#16a34a;color:#fff;font-weight:600}
+  button.secondary{background:#334155;border-color:#475569}
+  button.danger{background:#dc2626;border-color:#dc2626}
+  button:disabled{opacity:.45;cursor:not-allowed}
+  .modes{display:flex;gap:8px}
+  .modes button{flex:1;background:#1e293b;border:1px solid #475569;color:#e2e8f0}
+  .modes button.active{background:#2563eb;border-color:#2563eb;color:#fff}
+  .pill{display:inline-block;font-size:12px;padding:3px 9px;border-radius:99px;background:#334155;color:#cbd5e1;margin:2px 2px 2px 0}
+  .pill.green{background:#14532d;color:#bbf7d0}
+  .pill.amber{background:#713f12;color:#fde68a}
+  /* call screen */
+  #callScreen{display:none}
+  .phone{background:#111827;border:1px solid #334155;border-radius:20px;padding:18px;text-align:center}
+  .avatar{width:84px;height:84px;border-radius:50%;background:#2563eb;display:flex;align-items:center;justify-content:center;font-size:34px;font-weight:700;margin:6px auto 10px}
+  .callName{font-size:19px;font-weight:700}
+  .callState{color:#94a3b8;font-size:13px;margin:4px 0 2px}
+  .timer{font-size:15px;color:#fbbf24;font-variant-numeric:tabular-nums}
+  .micDot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#22c55e;margin-right:6px;vertical-align:middle}
+  .micDot.off{background:#64748b}
+  .transcript{text-align:left;background:#0f172a;border:1px solid #334155;border-radius:12px;padding:12px;margin-top:14px;max-height:300px;overflow-y:auto}
+  .msg{margin-bottom:10px;line-height:1.5;font-size:15px}
+  .msg b{color:#93c5fd}
+  .msg.bot b{color:#86efac}
+  .msg.sys{color:#94a3b8;font-size:13px;font-style:italic}
+  .speakRow{display:flex;gap:8px;margin-top:12px}
+  .speakRow input{flex:1}
+  .hint{font-size:12px;color:#94a3b8;margin-top:8px;text-align:left}
+  .summary{background:#14532d;border:1px solid #22c55e;border-radius:12px;padding:14px;margin-top:14px;display:none;text-align:left}
+  .summary h3{margin-bottom:6px}
+  .logItem{background:#0f172a;border:1px solid #334155;border-radius:10px;padding:10px;margin-top:8px;font-size:14px;line-height:1.5}
+  .note{font-size:13px;color:#94a3b8;line-height:1.6}
+  .note b{color:#cbd5e1}
+  a{color:#93c5fd}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📞 Calling Bot — Pirmahal</h1>
+  <p class="sub">Demo version — talks in your browser. It calls shops with the website pitch, and answers customers for a shop. It replies to whatever the other person says.</p>
+
+  <div class="card">
+    <label>1. What should the bot do?</label>
+    <div class="modes">
+      <button id="modeOut" class="active" onclick="setMode('out')">📤 Call a shop (sell the website)</button>
+      <button id="modeIn" onclick="setMode('in')">📥 Answer a customer (for the shop)</button>
+    </div>
+    <div style="height:12px"></div>
+    <label>2. Which business?</label>
+    <select id="shopSelect"></select>
+    <div id="shopInfo" style="margin-top:10px"></div>
+    <div style="height:12px"></div>
+    <label>3. Language on the call</label>
+    <div class="modes">
+      <button id="langUr" class="active" onclick="setLang('ur')">Roman Urdu</button>
+      <button id="langEn" onclick="setLang('en')">English</button>
+    </div>
+    <div style="height:14px"></div>
+    <div class="row">
+      <button id="startBtn" onclick="startCall()">▶ Start call</button>
+      <button class="secondary" onclick="toggleVoice()" id="voiceBtn">🔊 Voice: ON</button>
+    </div>
+    <p class="hint">Voice needs Chrome and microphone permission. If voice does not work, just type your reply — the bot still answers. Nothing is sent to any real phone in this demo.</p>
+  </div>
+
+  <div class="card" id="callScreen">
+    <div class="phone">
+      <div class="avatar" id="avatarLetter">B</div>
+      <div class="callName" id="callName">—</div>
+      <div class="callState" id="callState">Calling…</div>
+      <div class="timer" id="callTimer">00:00</div>
+      <div style="margin-top:6px;font-size:13px"><span class="micDot off" id="micDot"></span><span id="micLabel">Mic off</span></div>
+      <div class="transcript" id="transcript"></div>
+      <div class="speakRow">
+        <input type="text" id="typedReply" placeholder="Type what the other person says…" onkeydown="if(event.key==='Enter') sendTyped()">
+        <button onclick="sendTyped()">Send</button>
+      </div>
+      <div class="row" style="justify-content:center;margin-top:12px">
+        <button class="secondary" onclick="botRepeat()">↻ Repeat last line</button>
+        <button class="danger" onclick="endCall()">✕ End call</button>
+      </div>
+      <div class="summary" id="summary"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-bottom:8px">📋 Call log (this browser only)</h3>
+    <div id="callLog"><p class="note">No calls yet.</p></div>
+    <button class="secondary" style="margin-top:10px" onclick="clearLog()">Clear log</button>
+  </div>
+
+  <div class="card">
+    <p class="note"><b>How the bot works:</b> <span id="howText"></span></p>
+    <p class="note" style="margin-top:8px"><b>Real phone calls:</b> to call real numbers (Twilio) the bot needs a phone number and a calling account — that is a small paid setup. This demo lets you test every reply first, then we connect it to real calls when you say so. The bot never invents prices or phone numbers — where a price is not verified it says “price on call”.</p>
+  </div>
+</div>
+
+<script>
+const SHOPS = [
+ {code:"PM-PZ-01",name:"Ten 11 Pizza Valley Pirmahal",cat:"Pizza",phone:"0322-0491011",wa:"923220491011",link:"https://ammashadigital.github.io/ten-11-pizza-valley/"},
+ {code:"PM-PZ-02",name:"Mr. Cake & Fast Food",cat:"Pizza",phone:"0329-3360005",wa:"923293360005",link:"https://ammashadigital.github.io/mr-cake-fast-food/"},
+ {code:"PM-PZ-03",name:"Pizza Kraft",cat:"Pizza",phone:"0304-3366555",wa:"923043366555",link:"https://ammashadigital.github.io/pizza-kraft/"},
+ {code:"PM-PZ-04",name:"Pizza & Go - Pirmahal",cat:"Pizza",phone:"0309-3360003",wa:"923093360003",link:"https://ammashadigital.github.io/pizza-go/"},
+ {code:"PM-PZ-05",name:"G.Pizza & Coffee",cat:"Pizza",phone:"046-3360061 (landline)",wa:"",link:"https://ammashadigital.github.io/g-pizza-coffee/"},
+ {code:"PM-PZ-06",name:"RFC Pir Mahal - PizzaMe",cat:"Pizza",phone:"046-3366333 (landline)",wa:"",link:"https://ammashadigital.github.io/rfc-pizza-me/"},
+ {code:"PM-BS-01",name:"Moments Signature Beauty Salon",cat:"Salon",phone:"0332-4612111",wa:"923324612111",link:"https://ammashadigital.github.io/moments-signature-beauty-salon/",note:"Already has its own website"},
+ {code:"PM-BS-02",name:"B. Beauty Salon",cat:"Salon",phone:"0306-1118324",wa:"923061118324",link:"https://ammashadigital.github.io/b-beauty-salon/"},
+ {code:"PM-BS-03",name:"Asifa Beauty Salon",cat:"Salon",phone:"0333-6867034",wa:"",link:"https://ammashadigital.github.io/asifa-beauty-salon/"},
+ {code:"PM-BS-04",name:"Flair Beauty Salon & Stitching",cat:"Salon",phone:"0306-7249397",wa:"923067249397",link:"https://ammashadigital.github.io/flair-beauty-salon/"},
+ {code:"PM-BS-05",name:"Laiba's Beauty Salon",cat:"Salon",phone:"No phone found",wa:"",link:"https://ammashadigital.github.io/laiba-s-beauty-salon/"},
+ {code:"PM-BS-06",name:"Kin'z Beauty Parlour",cat:"Salon",phone:"No phone found",wa:"",link:"https://ammashadigital.github.io/kin-z-beauty-parlour/"},
+ {code:"PM-RS-01",name:"Baagh-E-Zaitoon Restaurant",cat:"Restaurant",phone:"0333-1612300",wa:"923331612300",link:"https://ammashadigital.github.io/baagh-e-zaitoon-restaurant/"},
+ {code:"PM-RS-02",name:"Maymar Pakwaan",cat:"Restaurant",phone:"0300-0252111",wa:"923000252111",link:"https://ammashadigital.github.io/maymar-pakwaan/"},
+ {code:"PM-RS-03",name:"Khan Baba Fast Food & Restaurant",cat:"Restaurant",phone:"0310-6560222",wa:"923106560222",link:"https://ammashadigital.github.io/khan-baba-fast-food-restaurant/"},
+ {code:"PM-RS-04",name:"G.Spice Restaurant",cat:"Restaurant",phone:"0315-1462700",wa:"923151462700",link:"https://ammashadigital.github.io/g-spice-restaurant/"},
+ {code:"PM-RS-05",name:"Habibi Pizza Kitchen",cat:"Restaurant",phone:"0316-6482308",wa:"923217597629",link:"https://ammashadigital.github.io/habibi-pizza-kitchen/",note:"Shop reported closed in Pirmahal"},
+ {code:"PM-RS-06",name:"Al-Jannat Hotel & Restaurant",cat:"Restaurant",phone:"046-3004545 (landline)",wa:"",link:"https://ammashadigital.github.io/al-jannat-hotel-restaurant/"}
+];
+let mode='out', lang='ur', voiceOn=true, shop=SHOPS[0];
+let callActive=false, timerInt=null, seconds=0, recog=null, lastBotLine='', stage='greet', outcome='No clear outcome', meetingTime='';
+const $=id=>document.getElementById(id);
+
+function fillShops(){
+  const sel=$('shopSelect');
+  sel.innerHTML=SHOPS.map((s,i)=>`<option value="${i}">${s.code} — ${s.name}</option>`).join('');
+  sel.onchange=()=>{shop=SHOPS[+sel.value]; showShop();};
+  showShop();
+}
+function showShop(){
+  $('shopInfo').innerHTML =
+    `<span class="pill">${shop.cat}</span><span class="pill">${shop.code}</span>`+
+    (shop.wa?`<span class="pill green">WhatsApp: ${shop.phone}</span>`:`<span class="pill amber">Call only: ${shop.phone}</span>`)+
+    (shop.note?`<span class="pill amber">${shop.note}</span>`:'')+
+    `<div style="margin-top:6px;font-size:13px">Demo link: <a href="${shop.link}" target="_blank">${shop.link}</a></div>`;
+  updateHow();
+}
+function setMode(m){
+  mode=m;
+  $('modeOut').classList.toggle('active',m==='out');
+  $('modeIn').classList.toggle('active',m==='in');
+  updateHow();
+}
+function setLang(l){
+  lang=l;
+  $('langUr').classList.toggle('active',l==='ur');
+  $('langEn').classList.toggle('active',l==='en');
+  updateHow();
+}
+function toggleVoice(){
+  voiceOn=!voiceOn;
+  $('voiceBtn').textContent=voiceOn?'🔊 Voice: ON':'🔇 Voice: OFF';
+}
+function updateHow(){
+  $('howText').textContent = mode==='out'
+    ? `Outbound: the bot calls ${shop.name}, greets the owner, pitches the ready website demo, answers price / “not interested” / “send the link” / “owner is not here” — and books a face-to-face meeting when they say yes.`
+    : `Inbound: the bot answers as ${shop.name}, asks how it can help, answers menu/service questions (price on call where unverified), takes an order or booking, and confirms it with the payment guidance.`;
+}
+// ---------- speech ----------
+function speak(text){
+  lastBotLine=text;
+  if(!voiceOn) return;
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang = lang==='ur' ? 'ur-PK' : 'en-US';
+    u.rate=1;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function botRepeat(){ if(lastBotLine) speak(lastBotLine); }
+function startListening(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ $('micLabel').textContent='Mic not supported here — type instead'; return; }
+  try{
+    recog=new SR();
+    recog.lang = lang==='ur' ? 'ur-PK' : 'en-US';
+    recog.continuous=false; recog.interimResults=false;
+    recog.onresult=e=>{
+      const t=e.results[0][0].transcript;
+      handleReply(t,true);
+    };
+    recog.onend=()=>{ if(callActive){ $('micDot').classList.add('off'); $('micLabel').textContent='Mic paused — tap Send or speak again'; setTimeout(()=>{ if(callActive) startListening(); },800);} };
+    recog.onerror=()=>{ $('micLabel').textContent='Mic error — type instead'; };
+    recog.start();
+    $('micDot').classList.remove('off');
+    $('micLabel').textContent='Listening… speak now';
+  }catch(e){ $('micLabel').textContent='Mic not available — type instead'; }
+}
+function stopListening(){ try{ recog&&recog.stop(); }catch(e){} }
+// ---------- call flow ----------
+function startCall(){
+  callActive=true; seconds=0; stage='greet'; outcome='No clear outcome'; meetingTime='';
+  $('callScreen').style.display='block';
+  $('summary').style.display='none';
+  $('transcript').innerHTML='';
+  $('avatarLetter').textContent=shop.name.trim()[0];
+  $('callName').textContent=shop.name;
+  $('callState').textContent = mode==='out' ? 'Calling '+shop.phone+'…' : 'Incoming call — '+shop.name;
+  $('callTimer').textContent='00:00';
+  $('startBtn').disabled=true;
+  clearInterval(timerInt);
+  timerInt=setInterval(()=>{ seconds++; const m=String(Math.floor(seconds/60)).padStart(2,'0'), s=String(seconds%60).padStart(2,'0'); $('callTimer').textContent=m+':'+s; },1000);
+  addMsg('sys', mode==='out' ? 'Dialling '+shop.phone+'…' : 'Customer is calling '+shop.name+'…');
+  setTimeout(()=>{
+    if(!callActive) return;
+    $('callState').textContent='Connected';
+    const line = mode==='out' ? greetOut() : greetIn();
+    botSay(line);
+    stage = mode==='out' ? 'pitch' : 'help';
+    startListening();
+    $('callScreen').scrollIntoView({behavior:'smooth'});
+  }, mode==='out'?1800:900);
+}
+function endCall(){
+  if(!callActive) return;
+  callActive=false; stopListening();
+  try{ speechSynthesis.cancel(); }catch(e){}
+  clearInterval(timerInt);
+  $('callState').textContent='Call ended';
+  $('micDot').classList.add('off'); $('micLabel').textContent='Mic off';
+  $('startBtn').disabled=false;
+  const dur=$('callTimer').textContent;
+  const s=$('summary');
+  s.style.display='block';
+  s.innerHTML=`<h3>📞 Call summary</h3><div>${shop.code} — ${shop.name}</div><div>Mode: ${mode==='out'?'Outbound pitch':'Inbound answering'} • Duration: ${dur}</div><div><b>Outcome: ${outcome}</b>${meetingTime?` • Meeting: ${meetingTime}`:''}</div><div style="margin-top:6px;font-size:13px">Full transcript is saved in the call log below.</div>`;
+  saveLog(dur);
+}
+function addMsg(who,text){
+  const d=document.createElement('div');
+  d.className='msg '+(who==='bot'?'bot':'');
+  d.innerHTML = who==='sys' ? `<span class="sys">${text}</span>` : `<b>${who==='bot'?'🤖 Bot':'👤 Them'}:</b> ${escapeHtml(text)}`;
+  $('transcript').appendChild(d);
+  $('transcript').scrollTop=$('transcript').scrollHeight;
+}
+function escapeHtml(t){ return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function botSay(text){
+  addMsg('bot',text);
+  speak(text);
+}
+function sendTyped(){
+  const inp=$('typedReply');
+  const t=inp.value.trim();
+  if(!t||!callActive) return;
+  inp.value='';
+  handleReply(t,false);
+}
+function handleReply(text,fromVoice){
+  if(!callActive) return;
+  addMsg('them',text);
+  stopListening();
+  setTimeout(()=>{
+    if(!callActive) return;
+    const reply = mode==='out' ? respondOut(text) : respondIn(text);
+    botSay(reply);
+    if(callActive) startListening();
+  },700);
+}
+// ---------- language lines ----------
+function greetOut(){
+  return lang==='ur'
+    ? `Assalam-o-Alaikum, ${shop.name} ke owner se baat ho rahi hai? Main AmmaSha Digital se bol raha hoon. Aap ke ${shop.cat==='Salon'?'salon':'business'} ke liye hum ne aik professional website ready ki hai — customers ${shop.cat==='Salon'?'services dekh kar WhatsApp par direct booking':'menu dekh kar direct order'} kar sakenge. Kya aap 2 minute de sakte hain?`
+    : `Hello, am I speaking with the owner of ${shop.name}? I'm calling from AmmaSha Digital. We have prepared a professional website for your business — customers can ${shop.cat==='Salon'?'see your services and book directly on WhatsApp':'see the menu and order directly'}. Do you have 2 minutes?`;
+}
+function greetIn(){
+  return lang==='ur'
+    ? `Assalam-o-Alaikum, ${shop.name} — main aap ki kya madad kar sakta hoon? Aap order dena chahte hain ya booking karwana chahte hain?`
+    : `Hello, ${shop.name} — how can I help you? Would you like to place an order or make a booking?`;
+}
+// ---------- outbound brain ----------
+function respondOut(t){
+  const s=t.toLowerCase();
+  const has=(...ws)=>ws.some(w=>s.includes(w));
+  if(has('haan','yes','ji','theek','bolo','sunao','batao','ok','sure','go ahead') && stage==='pitch'){
+    stage='pitch2';
+    return lang==='ur'
+      ? `Shukriya! Website mein aap ka poora ${shop.cat==='Salon'?'services aur rates':'menu'} hai, Call aur WhatsApp button hai, aur customers apna order ya booking WhatsApp par bhej sakte hain. Demo link main aap ko WhatsApp par bhej doon? Aap ka number yehi hai — ${shop.phone}?`
+      : `Thank you! The website has your full ${shop.cat==='Salon'?'services and rates':'menu'}, Call and WhatsApp buttons, and customers can send their order or booking on WhatsApp. Shall I send you the demo link on WhatsApp? Is ${shop.phone} the right number?`;
+  }
+  if(has('kitne','price','paisa','charges','cost','rate','fees','mehnga','sasta')){
+    return lang==='ur'
+      ? `Price ki koi tension nahi — pehle aap website dekh lein, phir hum face-to-face meeting mein price aur package tay kar lete hain. Aaj kal sab digital ho raha hai, jo pehle website lega wo pehle customers ko attract kare ga. Kal mil sakte hain aap ke ${shop.cat==='Salon'?'salon':'shop'} par?`
+      : `No tension about the price — first have a look at the website, then we can fix the price and package in a face-to-face meeting. Everyone is going digital now; whoever gets a website first attracts customers first. Can we meet tomorrow at your ${shop.cat==='Salon'?'salon':'shop'}?`;
+  }
+  if(has('link','whatsapp','bhej','send')){
+    outcome='Interested — demo link to be sent on WhatsApp';
+    return lang==='ur'
+      ? `Bilkul, main abhi aap ko WhatsApp par demo link bhej deta hoon — ${shop.link}. Link par tap karte hi website khul jayegi. Dekh kar batayein, phir meeting kar lete hain. Shukriya!`
+      : `Of course, I'll send you the demo link on WhatsApp right now — ${shop.link}. Just tap the link and the website opens. Have a look and let me know, then we can meet. Thank you!`;
+  }
+  if(has('meeting','mil','kal','tomorrow','aaj','time','kab','visit','aao','aa jao')){
+    outcome='Meeting agreed';
+    meetingTime = lang==='ur' ? 'Owner se time confirm karna hai' : 'Time to be confirmed with owner';
+    stage='done';
+    return lang==='ur'
+      ? `Zaroor! Main kal aap ke ${shop.cat==='Salon'?'salon':'shop'} par aa jata hoon. Aap ke liye subah 11 baje theek rahe ga ya dopahar 3 baje?`
+      : `Sure! I'll come to your ${shop.cat==='Salon'?'salon':'shop'} tomorrow. Would 11 in the morning suit you, or 3 in the afternoon?`;
+  }
+  if(has('11','subah','morning','3','teen','dopahar','afternoon') && stage==='done'){
+    meetingTime = s.includes('11')||has('subah','morning') ? (lang==='ur'?'Kal subah 11 baje':'Tomorrow 11 AM') : (lang==='ur'?'Kal dopahar 3 baje':'Tomorrow 3 PM');
+    outcome='Meeting booked: '+meetingTime;
+    return lang==='ur'
+      ? `Done! ${meetingTime} aap ke ${shop.cat==='Salon'?'salon':'shop'} par milte hain, aur website ka demo bhi saath le aaoon ga. Shukriya, Allah Hafiz!`
+      : `Done! See you ${meetingTime} at your ${shop.cat==='Salon'?'salon':'shop'}, and I'll bring the website demo with me. Thank you, goodbye!`;
+  }
+  if(has('nahi','no','nahin','zaroorat nahi','not interested','matlab nahi','chahiye nahi')){
+    outcome='Not interested right now';
+    return lang==='ur'
+      ? `Koi baat nahi, shukriya aap ke waqt ka. Website demo link phir bhi WhatsApp par bhej deta hoon — jab zaroorat ho to dekh lijiye ga. Allah Hafiz!`
+      : `No problem, thank you for your time. I'll still send the demo link on WhatsApp — have a look whenever you need it. Goodbye!`;
+  }
+  if(has('owner nahi','malik nahi','baad','later','busy','mashroof','call back','phir')){
+    outcome='Callback — owner not available';
+    return lang==='ur'
+      ? `Theek hai, koi baat nahi. Owner kab milenge? Main us waqt dobara call kar loon ga. Shukriya!`
+      : `That's fine. When will the owner be available? I'll call again at that time. Thank you!`;
+  }
+  if(has('website hai','already','pehle se')){
+    return lang==='ur'
+      ? `Acha, aap ki website pehle se hai? Kya us par customers order ya booking kar sakte hain? Humari website par WhatsApp ordering aur booking bhi hai — agar chahein to main demo bhej deta hoon, dekh lein, koi pabandi nahi.`
+      : `Oh, you already have a website? Can customers order or book on it? Our website also has WhatsApp ordering and booking — if you like, I'll send the demo, have a look, no obligation.`;
+  }
+  if(stage==='pitch'){
+    return lang==='ur'
+      ? `Samajh gaya. Bas itna kehna tha ke aap ke ${shop.cat==='Salon'?'salon':'business'} ki professional website ready hai — customers dekh kar direct order ya booking kar sakenge. Main demo link WhatsApp par bhej doon?`
+      : `Understood. I just wanted to say your professional website is ready — customers can see it and order or book directly. Shall I send the demo link on WhatsApp?`;
+  }
+  return lang==='ur'
+    ? `Theek hai, samajh gaya. Kya aap chahte hain ke main demo link WhatsApp par bhej doon, ya face-to-face meeting kar lein?`
+    : `Okay, understood. Would you like me to send the demo link on WhatsApp, or shall we fix a face-to-face meeting?`;
+}
+// ---------- inbound brain ----------
+function respondIn(t){
+  const s=t.toLowerCase();
+  const has=(...ws)=>ws.some(w=>s.includes(w));
+  if(has('menu','rate','price','charges','kitne','cost','kya hai','services','service')){
+    return lang==='ur'
+      ? `${shop.name} ka poora menu aur services website par hain — ${shop.link}. Price ke liye kuch cheezon par “price on call” hai, baaki website par likhi hain. Aap kya lena chahte hain, main order note kar loon?`
+      : `The full menu and services of ${shop.name} are on the website — ${shop.link}. Some prices are “price on call”, the rest are listed there. What would you like? I can note your order.`;
+  }
+  if(has('order','book','booking','mangwana','chahiye','lena','appointment')){
+    stage='taking';
+    return lang==='ur'
+      ? `Zaroor! Aap apna naam aur kya ${shop.cat==='Salon'?'service':'order'} chahte hain, bata dein — aur kis time chahiye? Main note kar leta hoon aur ${shop.name} ko bhej deta hoon.`
+      : `Of course! Please tell me your name and what ${shop.cat==='Salon'?'service':'you would like to order'} — and for what time? I'll note it down and send it to ${shop.name}.`;
+  }
+  if(stage==='taking' || has('naam','name','time','baje','kal','aaj')){
+    outcome='Order/booking taken — to be confirmed by the shop';
+    return lang==='ur'
+      ? `Note kar liya, shukriya! ${shop.name} aap ko WhatsApp par total bill aur time confirm kare ga. Payment sirf usi detail par karein jo shop khud us chat mein bhejey — aur payment ka screenshot bhej kar confirm kar dein. Kuch aur chahiye?`
+      : `Noted, thank you! ${shop.name} will confirm the total bill and time with you on WhatsApp. Please pay only on the payment details the shop itself sends in that chat — and send a payment screenshot to confirm. Anything else?`;
+  }
+  if(has('timing','hours','khula','open','band','close','location','kahan','address','pata')){
+    return lang==='ur'
+      ? `${shop.name} ka address aur timing website par hai — ${shop.link}. Call bhi kar sakte hain: ${shop.phone}. Kya main aap ki booking ya order note kar loon?`
+      : `The address and timings of ${shop.name} are on the website — ${shop.link}. You can also call: ${shop.phone}. Shall I note your booking or order?`;
+  }
+  if(has('shukriya','thank','allah hafiz','bye','ok')){
+    return lang==='ur'
+      ? `Shukriya! ${shop.name} se rabta karne ke liye. Allah Hafiz!`
+      : `Thank you for calling ${shop.name}. Goodbye!`;
+  }
+  return lang==='ur'
+    ? `Ji, samajh gaya. Aap order dena chahte hain, booking karwana chahte hain, ya price poochna chahte hain?`
+    : `Yes, understood. Would you like to place an order, make a booking, or ask about prices?`;
+}
+// ---------- call log ----------
+function saveLog(dur){
+  const turns=[...document.querySelectorAll('#transcript .msg')].map(m=>m.textContent).join(' | ');
+  const logs=JSON.parse(localStorage.getItem('pb_call_log')||'[]');
+  logs.unshift({when:new Date().toLocaleString(), shop:shop.code+' — '+shop.name, mode:mode==='out'?'Outbound':'Inbound', dur, outcome, transcript:turns});
+  localStorage.setItem('pb_call_log',JSON.stringify(logs.slice(0,20)));
+  renderLog();
+}
+function renderLog(){
+  const logs=JSON.parse(localStorage.getItem('pb_call_log')||'[]');
+  $('callLog').innerHTML = logs.length ? logs.map(l=>`<div class="logItem"><b>${l.shop}</b> • ${l.mode} • ${l.dur}<br>${l.when}<br><b>${escapeHtml(l.outcome)}</b><br><span style="color:#94a3b8">${escapeHtml(l.transcript)}</span></div>`).join('') : '<p class="note">No calls yet.</p>';
+}
+function clearLog(){ localStorage.removeItem('pb_call_log'); renderLog(); }
+fillShops(); renderLog();
+</script>
+</body>
+</html>
