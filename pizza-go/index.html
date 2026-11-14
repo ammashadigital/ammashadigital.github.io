@@ -8,8 +8,8 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#fff8f0;color:#1f2937;line-height:1.5}
-a{color:#b91c1c}
-header{background:linear-gradient(135deg,#7f1d1d,#b91c1c);color:#fff;padding:22px 16px 18px;text-align:center}
+a{color:#7f1d1d}
+header{background:linear-gradient(135deg,#7f1d1d,#b91c1c);color:#ffffff;padding:22px 16px 18px;text-align:center}
 header h1{font-size:26px;line-height:1.2}
 header .tag{opacity:.92;font-size:14px;margin-top:4px}
 .badges{margin-top:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
@@ -26,7 +26,7 @@ h2 .em{margin-right:6px}
 .sub{color:#6b7280;font-size:13px;margin-bottom:12px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch}
 .chip{white-space:nowrap;border:1px solid #d1d5db;background:#fff;border-radius:99px;padding:7px 14px;font-size:14px;cursor:pointer}
-.chip.on{background:#b91c1c;color:#fff;border-color:#b91c1c}
+.chip.on{background:#b91c1c;color:#ffffff;border-color:#b91c1c}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:560px){.grid{grid-template-columns:1fr}}
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:13px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
@@ -39,11 +39,13 @@ h2 .em{margin-right:6px}
 .tag-best{display:inline-block;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px}
 .tag-deal{display:inline-block;background:#dcfce7;color:#166534;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px}
 .addrow{display:flex;gap:8px;align-items:center;margin-top:10px}
-.addbtn{flex:1;background:#b91c1c;color:#fff;border:0;border-radius:9px;padding:9px;font-weight:700;font-size:14px;cursor:pointer}
+.addbtn{flex:1;background:#b91c1c;color:#ffffff;border:0;border-radius:9px;padding:9px;font-weight:700;font-size:14px;cursor:pointer}
 .qty{display:flex;align-items:center;gap:8px}
 .qty button{width:32px;height:32px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:18px;cursor:pointer}
 .qty b{min-width:20px;text-align:center}
 .stars{margin-top:9px;font-size:13px;color:#6b7280}
+.stars .avg{font-size:13px;color:#1f2937;margin-bottom:2px}
+.stars .avg b{color:#b45309}
 .stars .st{font-size:19px;cursor:pointer;color:#d1d5db;letter-spacing:2px}
 .stars .st.lit{color:#f59e0b}
 .stars .note{font-size:12px}
@@ -135,13 +137,45 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:18px 0 8px}
 <div class="toast" id="toast"></div>
 
 <script>
-const SHOP = {"folder": "pizza-go", "code": "PM-PZ-04", "name": "Pizza & Go — Pirmahal", "tag": "Fresh pizza, fast — late night till 5 AM", "addr": "Opposite Sharif Hospital, Mandar Block, Tanki Wala Plot, Pir Mahal", "phones": ["0309-3360003", "0309-8786003", "046-3660003"], "wa": "923093360003", "hours": "1:30 PM – 5:00 AM (daily)", "rating": "Rated 3.9 on Google (83 reviews)", "delivery": "Cash only", "about": "Pirmahal's late-night pizza spot, famous for its signature Spin Roll. Also serving Chichawatni, Burewala, Toba Tek Singh and Khanewal.", "deals_note": "Ask the shop on WhatsApp for today's discount — deal prices are confirmed when you order.", "menu": [{"id": "p1", "name": "Spin Roll (Signature)", "cat": "Pizza", "desc": "The famous Pizza & Go Spin Roll — the shop's signature.", "emoji": "🍕", "best": true}, {"id": "p2", "name": "Chicken Fajita Pizza", "cat": "Pizza", "desc": "Fajita chicken, capsicum, onions and cheese.", "emoji": "🍕", "best": true}, {"id": "p3", "name": "Chicken Tikka Pizza", "cat": "Pizza", "desc": "Desi tikka chicken pizza.", "emoji": "🍕"}, {"id": "p4", "name": "BBQ Chicken Pizza", "cat": "Pizza", "desc": "Smoky BBQ chicken topping.", "emoji": "🍕"}, {"id": "p5", "name": "Cheese Pizza", "cat": "Pizza", "desc": "Classic cheese pizza.", "emoji": "🧀"}, {"id": "p6", "name": "Vegetable Pizza", "cat": "Pizza", "desc": "Fresh vegetables on a cheesy base.", "emoji": "🥦"}, {"id": "b1", "name": "Zinger Burger", "cat": "Burgers", "desc": "Crispy zinger burger.", "emoji": "🍔", "best": true}, {"id": "b2", "name": "Chicken Burger", "cat": "Burgers", "desc": "Grilled chicken burger.", "emoji": "🍔"}, {"id": "b3", "name": "Beef Burger", "cat": "Burgers", "desc": "Juicy beef burger.", "emoji": "🍔"}, {"id": "s1", "name": "Chicken Shawarma", "cat": "Wraps & Rolls", "desc": "Juicy shawarma roll.", "emoji": "🌯"}, {"id": "s2", "name": "Malai Boti Roll", "cat": "Wraps & Rolls", "desc": "Creamy malai boti in a soft roll.", "emoji": "🌯"}, {"id": "s3", "name": "French Fries", "cat": "Sides", "desc": "Golden crispy fries.", "emoji": "🍟"}, {"id": "s4", "name": "Loaded Fries", "cat": "Sides", "desc": "Fries with sauce and cheese.", "emoji": "🍟"}, {"id": "s5", "name": "Chicken Wings", "cat": "Sides", "desc": "Hot wings.", "emoji": "🍗"}, {"id": "s6", "name": "Chicken Nuggets", "cat": "Sides", "desc": "Crispy nuggets.", "emoji": "🍗"}, {"id": "d1", "name": "Spin Roll Deal", "cat": "Deals", "desc": "Spin Roll + drink — the house deal.", "emoji": "🎁", "deal": true}, {"id": "d2", "name": "Family Deal", "cat": "Deals", "desc": "Two pizzas + fries + drink for the family.", "emoji": "🎁", "deal": true}, {"id": "d3", "name": "Friends Deal", "cat": "Deals", "desc": "Pizza + burgers + drink for friends.", "emoji": "🎁", "deal": true}, {"id": "d4", "name": "Late Night Deal", "cat": "Deals", "desc": "Late-night combo, till 5 AM.", "emoji": "🎁", "deal": true}, {"id": "dr1", "name": "Cold Drink 1.5 Ltr", "cat": "Drinks", "desc": "Chilled soft drink.", "emoji": "🥤"}, {"id": "dr2", "name": "Cold Drink (Can)", "cat": "Drinks", "desc": "Chilled soft drink can.", "emoji": "🥤"}, {"id": "dr3", "name": "Mineral Water", "cat": "Drinks", "desc": "Pure mineral water.", "emoji": "💧"}]};
+const SHOP = {"folder": "pizza-go", "code": "PM-PZ-04", "name": "Pizza & Go — Pirmahal", "tag": "Fresh pizza, fast — late night till 5 AM", "addr": "Opposite Sharif Hospital, Mandar Block, Tanki Wala Plot, Pir Mahal", "phones": ["0309-3360003", "0309-8786003", "046-3660003"], "wa": "923093360003", "hours": "1:30 PM – 5:00 AM (daily)", "rating": "Rated 3.9 on Google (83 reviews)", "delivery": "Cash only", "about": "Pirmahal's late-night pizza spot, famous for its signature Spin Roll. Also serving Chichawatni, Burewala, Toba Tek Singh and Khanewal.", "deals_note": "Ask the shop on WhatsApp for today's discount — deal prices are confirmed when you order.", "theme": {"hdr1": "#7f1d1d", "hdr2": "#b91c1c", "hdr_text": "#ffffff", "primary": "#b91c1c", "primary_dark": "#7f1d1d", "btn_text": "#ffffff", "bg": "#fff8f0", "price": "#b91c1c", "order_shadow": "rgba(185,28,28,.12)"}, "menu": [{"id": "p1", "name": "Spin Roll (Signature)", "cat": "Pizza", "desc": "The famous Pizza & Go Spin Roll — the shop's signature.", "emoji": "🍕", "best": true}, {"id": "p2", "name": "Chicken Fajita Pizza", "cat": "Pizza", "desc": "Fajita chicken, capsicum, onions and cheese.", "emoji": "🍕", "best": true}, {"id": "p3", "name": "Chicken Tikka Pizza", "cat": "Pizza", "desc": "Desi tikka chicken pizza.", "emoji": "🍕"}, {"id": "p4", "name": "BBQ Chicken Pizza", "cat": "Pizza", "desc": "Smoky BBQ chicken topping.", "emoji": "🍕"}, {"id": "p5", "name": "Cheese Pizza", "cat": "Pizza", "desc": "Classic cheese pizza.", "emoji": "🧀"}, {"id": "p6", "name": "Vegetable Pizza", "cat": "Pizza", "desc": "Fresh vegetables on a cheesy base.", "emoji": "🥦"}, {"id": "b1", "name": "Zinger Burger", "cat": "Burgers", "desc": "Crispy zinger burger.", "emoji": "🍔", "best": true}, {"id": "b2", "name": "Chicken Burger", "cat": "Burgers", "desc": "Grilled chicken burger.", "emoji": "🍔"}, {"id": "b3", "name": "Beef Burger", "cat": "Burgers", "desc": "Juicy beef burger.", "emoji": "🍔"}, {"id": "s1", "name": "Chicken Shawarma", "cat": "Wraps & Rolls", "desc": "Juicy shawarma roll.", "emoji": "🌯"}, {"id": "s2", "name": "Malai Boti Roll", "cat": "Wraps & Rolls", "desc": "Creamy malai boti in a soft roll.", "emoji": "🌯"}, {"id": "s3", "name": "French Fries", "cat": "Sides", "desc": "Golden crispy fries.", "emoji": "🍟"}, {"id": "s4", "name": "Loaded Fries", "cat": "Sides", "desc": "Fries with sauce and cheese.", "emoji": "🍟"}, {"id": "s5", "name": "Chicken Wings", "cat": "Sides", "desc": "Hot wings.", "emoji": "🍗"}, {"id": "s6", "name": "Chicken Nuggets", "cat": "Sides", "desc": "Crispy nuggets.", "emoji": "🍗"}, {"id": "d1", "name": "Spin Roll Deal", "cat": "Deals", "desc": "Spin Roll + drink — the house deal.", "emoji": "🎁", "deal": true}, {"id": "d2", "name": "Family Deal", "cat": "Deals", "desc": "Two pizzas + fries + drink for the family.", "emoji": "🎁", "deal": true}, {"id": "d3", "name": "Friends Deal", "cat": "Deals", "desc": "Pizza + burgers + drink for friends.", "emoji": "🎁", "deal": true}, {"id": "d4", "name": "Late Night Deal", "cat": "Deals", "desc": "Late-night combo, till 5 AM.", "emoji": "🎁", "deal": true}, {"id": "dr1", "name": "Cold Drink 1.5 Ltr", "cat": "Drinks", "desc": "Chilled soft drink.", "emoji": "🥤"}, {"id": "dr2", "name": "Cold Drink (Can)", "cat": "Drinks", "desc": "Chilled soft drink can.", "emoji": "🥤"}, {"id": "dr3", "name": "Mineral Water", "cat": "Drinks", "desc": "Pure mineral water.", "emoji": "💧"}]};
 const MENU = SHOP.menu;
+const FB_CONFIG = {"apiKey": "AIzaSyCFa9fGrVXR0T0sskmyOMMjxBm_MOhODWo", "authDomain": "pirmahal-pizza-ratings.firebaseapp.com", "databaseURL": "https://pirmahal-pizza-ratings-default-rtdb.firebaseio.com", "projectId": "pirmahal-pizza-ratings", "storageBucket": "pirmahal-pizza-ratings.firebasestorage.app", "messagingSenderId": "970062553874", "appId": "1:970062553874:web:16646752e7fac0a28d09cb"};
 const LS_CART = 'cart_' + SHOP.code;
 const LS_RATE = 'rate_' + SHOP.code;
+const LS_DEVICE = 'device_id';
 let cart = JSON.parse(localStorage.getItem(LS_CART) || '{}');
-let ratings = JSON.parse(localStorage.getItem(LS_RATE) || '{}');
+let myRatings = JSON.parse(localStorage.getItem(LS_RATE) || '{}');
+let shared = {};
+let deviceId = localStorage.getItem(LS_DEVICE);
+if(!deviceId){ deviceId = 'd' + Math.random().toString(36).slice(2,12); localStorage.setItem(LS_DEVICE, deviceId); }
 let activeCat = 'All';
+let fbDb = null;
+
+// Load Firebase lazily (after the page shows) so the site stays fast.
+// Shared ratings arrive a moment later and the page updates live.
+function initFirebase(){
+  if(!FB_CONFIG.apiKey || !FB_CONFIG.databaseURL) return;
+  const load = (src)=> new Promise((res, rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+  load('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
+    .then(()=>load('https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js'))
+    .then(()=>{
+      try{
+        if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+        fbDb = firebase.database();
+        fbDb.ref('ratings/' + SHOP.code).on('value', (snap)=>{
+          const val = snap.val() || {};
+          shared = {};
+          Object.entries(val).forEach(([itemId, byDevice])=>{
+            let sum=0, count=0;
+            Object.values(byDevice).forEach(v=>{ const n=Number(v); if(n>=1&&n<=5){ sum+=n; count++; } });
+            if(count) shared[itemId]={sum, count};
+          });
+          render();
+        });
+      }catch(e){ /* stay on local-only ratings */ }
+    }).catch(()=>{ /* offline: local-only ratings */ });
+}
+window.addEventListener('load', ()=> setTimeout(initFirebase, 300));
 
 function priceText(it){
   if(it.price != null){
@@ -152,13 +186,31 @@ function priceText(it){
   return 'Price on call <small>(confirm on order)</small>';
 }
 function starsHTML(it){
-  const mine = ratings[it.id] || 0;
-  let h = '<div class="stars"><span class="note">Rate this item:</span> ';
-  for(let s=1;s<=5;s++){
-    h += `<span class="st${s<=mine?' lit':''}" onclick="rate('${it.id}',${s})">★</span>`;
+  const mine = myRatings[it.id] || 0;
+  const s = shared[it.id];
+  let avgLine = '';
+  if(s && s.count){
+    const avg = s.sum / s.count;
+    let stars = '';
+    for(let i=1;i<=5;i++){ stars += `<span style="color:${i<=Math.round(avg)?'#f59e0b':'#d1d5db'}">★</span>`; }
+    avgLine = `<div class="avg">${stars} <b>${avg.toFixed(1)}</b> (${s.count} rating${s.count>1?'s':''})</div>`;
+  } else {
+    avgLine = '<div class="avg">No ratings yet — be the first!</div>';
   }
-  h += mine ? ` <span class="note">Your rating: ${mine}/5</span>` : ' <span class="note">Tap a star after your order</span>';
+  let h = '<div class="stars">' + avgLine + '<span class="note">Your rating:</span> ';
+  for(let s2=1;s2<=5;s2++){
+    h += `<span class="st${s2<=mine?' lit':''}" onclick="rate('${it.id}',${s2})">★</span>`;
+  }
+  h += mine ? ` <span class="note">You rated ${mine}/5</span>` : ' <span class="note">Tap a star after your order</span>';
   return h + '</div>';
+}
+function bestSellers(){
+  const rated = MENU.filter(i=>shared[i.id] && shared[i.id].count>0)
+    .map(i=>({it:i, avg:shared[i.id].sum/shared[i.id].count, count:shared[i.id].count}))
+    .sort((a,b)=> b.avg-a.avg || b.count-a.count);
+  const picks = rated.slice(0,4).map(r=>r.it);
+  for(const it of MENU){ if(picks.length>=4) break; if(it.best && !picks.includes(it)) picks.push(it); }
+  return picks;
 }
 function cardHTML(it){
   const q = cart[it.id] || 0;
@@ -174,7 +226,7 @@ function cardHTML(it){
   </div>`;
 }
 function render(){
-  document.getElementById('bestGrid').innerHTML = MENU.filter(i=>i.best).map(cardHTML).join('');
+  document.getElementById('bestGrid').innerHTML = bestSellers().map(cardHTML).join('');
   document.getElementById('dealGrid').innerHTML = MENU.filter(i=>i.deal).map(cardHTML).join('');
   const cats = ['All', ...new Set(MENU.map(i=>i.cat))];
   document.getElementById('chips').innerHTML = cats.map(c=>`<button class="chip${c===activeCat?' on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
@@ -200,7 +252,7 @@ function addTyped(){
   }
   inp.value='';
 }
-function rate(id,s){ ratings[id]=s; localStorage.setItem(LS_RATE, JSON.stringify(ratings)); render(); toast('Thanks! You rated '+s+'/5 ★'); }
+function rate(id,s){ myRatings[id]=s; localStorage.setItem(LS_RATE, JSON.stringify(myRatings)); if(fbDb){ fbDb.ref('ratings/' + SHOP.code + '/' + id + '/' + deviceId).set(s).catch(()=>{}); } render(); toast('Thanks! You rated '+s+'/5 ★'); }
 function cartEntries(){
   return Object.entries(cart).map(([id,q])=>{
     if(id.startsWith('custom:')) return {name:id.slice(7), q, price:null};

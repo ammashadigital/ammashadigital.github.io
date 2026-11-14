@@ -44,6 +44,8 @@ h2 .em{margin-right:6px}
 .qty button{width:32px;height:32px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:18px;cursor:pointer}
 .qty b{min-width:20px;text-align:center}
 .stars{margin-top:9px;font-size:13px;color:#6b7280}
+.stars .avg{font-size:13px;color:#1f2937;margin-bottom:2px}
+.stars .avg b{color:#b45309}
 .stars .st{font-size:19px;cursor:pointer;color:#d1d5db;letter-spacing:2px}
 .stars .st.lit{color:#f59e0b}
 .stars .note{font-size:12px}
@@ -137,11 +139,43 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:18px 0 8px}
 <script>
 const SHOP = {"folder": "ten-11-pizza-valley", "code": "PM-PZ-01", "name": "Ten 11 Pizza Valley", "tag": "Where Friends & Family Meet — The Live Kitchen", "addr": "Naseer Plaza, opposite Ghareebabad School, Upper Colony, Pirmahal", "phones": ["0322-0491011", "0322-0591011", "0371-0581011"], "wa": "923220491011", "hours": "12:00 PM – 2:00 AM (daily)", "rating": "", "delivery": "Free home delivery", "about": "Fresh pizza from a live kitchen, family seating, and the fastest home delivery in Pirmahal. Deals for students, families and friends — from Rs. 800 to Rs. 4,000.", "deals_note": "Deal prices Rs. 800 – Rs. 4,000. Exact price of each deal is confirmed by the shop when you order.", "theme": {"hdr1": "#111827", "hdr2": "#000000", "hdr_text": "#fbbf24", "primary": "#f59e0b", "primary_dark": "#b45309", "btn_text": "#111827", "bg": "#fffbeb", "price": "#b45309", "order_shadow": "rgba(245,158,11,.25)"}, "menu": [{"id": "p1", "name": "TEN 11 Special Pizza", "cat": "Pizza", "desc": "The house special — loaded, cheesy, made in the live kitchen.", "emoji": "🍕", "best": true}, {"id": "p2", "name": "Royal Crust Pizza", "cat": "Pizza", "desc": "Stuffed royal crust with chicken and cheese.", "emoji": "🍕", "best": true}, {"id": "p3", "name": "Chicken Fajita Pizza", "cat": "Pizza", "desc": "Smoky fajita chicken, capsicum and onions.", "emoji": "🍕"}, {"id": "p4", "name": "Chicken Tikka Pizza", "cat": "Pizza", "desc": "Desi tikka flavour on a fresh base.", "emoji": "🍕"}, {"id": "p5", "name": "Cheese Lovers Pizza", "cat": "Pizza", "desc": "Extra mozzarella for cheese lovers.", "emoji": "🧀"}, {"id": "b1", "name": "Double Maza Burger", "cat": "Burgers", "desc": "Double patty, double taste.", "emoji": "🍔"}, {"id": "b2", "name": "Zinger Burger", "cat": "Burgers", "desc": "Crispy zinger with sauce and fresh salad.", "emoji": "🍔", "best": true}, {"id": "s1", "name": "Chicken Paratha Roll", "cat": "Wraps & Rolls", "desc": "Flaky paratha wrapped around spicy chicken.", "emoji": "🌯"}, {"id": "s2", "name": "Spring Roll", "cat": "Wraps & Rolls", "desc": "Crispy golden spring rolls.", "emoji": "🌯"}, {"id": "s3", "name": "Chicken Wings", "cat": "Sides", "desc": "Hot and crispy wings.", "emoji": "🍗"}, {"id": "s4", "name": "Chicken Nuggets", "cat": "Sides", "desc": "Golden nuggets, kids' favourite.", "emoji": "🍗"}, {"id": "s5", "name": "Fries", "cat": "Sides", "desc": "Fresh golden fries.", "emoji": "🍟"}, {"id": "s6", "name": "Pizza Fries", "cat": "Sides", "desc": "Fries loaded with pizza sauce and cheese.", "emoji": "🍟"}, {"id": "s7", "name": "TEN 11 Special Pasta", "cat": "Pasta", "desc": "Creamy special pasta from the live kitchen.", "emoji": "🍝", "best": true}, {"id": "d1", "name": "Regular Deal", "cat": "Deals", "desc": "Pizza + drink — everyday value.", "emoji": "🎁", "deal": true}, {"id": "d2", "name": "Smart Deal", "cat": "Deals", "desc": "Smart combo for one.", "emoji": "🎁", "deal": true}, {"id": "d3", "name": "Value Deal", "cat": "Deals", "desc": "Best value pizza combo.", "emoji": "🎁", "deal": true}, {"id": "d4", "name": "Special Deal", "cat": "Deals", "desc": "Special pizza, pasta and drink.", "emoji": "🎁", "deal": true}, {"id": "d5", "name": "Super Deal", "cat": "Deals", "desc": "Big combo for the family.", "emoji": "🎁", "deal": true}, {"id": "d6", "name": "Double Up Deal", "cat": "Deals", "desc": "Two pizzas, one price mood.", "emoji": "🎁", "deal": true}, {"id": "d7", "name": "Chaska Deal", "cat": "Deals", "desc": "Full chaska — pizza, wings and drink.", "emoji": "🎁", "deal": true}, {"id": "d8", "name": "Student Deal", "cat": "Deals", "desc": "Budget deal for students.", "emoji": "🎁", "deal": true}, {"id": "d9", "name": "Bacha Deal", "cat": "Deals", "desc": "Kids' favourite combo.", "emoji": "🎁", "deal": true}, {"id": "d10", "name": "Friends Deal", "cat": "Deals", "desc": "Made for friends to share.", "emoji": "🎁", "deal": true}, {"id": "d11", "name": "Royal Deal", "cat": "Deals", "desc": "The royal feast — pizza, pasta, wings and drinks.", "emoji": "🎁", "deal": true}, {"id": "d12", "name": "Family Deal", "cat": "Deals", "desc": "The full family table.", "emoji": "🎁", "deal": true}, {"id": "dr1", "name": "Cold Drink 1.5 Ltr", "cat": "Drinks", "desc": "Chilled soft drink.", "emoji": "🥤"}, {"id": "dr2", "name": "Mineral Water", "cat": "Drinks", "desc": "Pure mineral water.", "emoji": "💧"}]};
 const MENU = SHOP.menu;
+const FB_CONFIG = {"apiKey": "AIzaSyCFa9fGrVXR0T0sskmyOMMjxBm_MOhODWo", "authDomain": "pirmahal-pizza-ratings.firebaseapp.com", "databaseURL": "https://pirmahal-pizza-ratings-default-rtdb.firebaseio.com", "projectId": "pirmahal-pizza-ratings", "storageBucket": "pirmahal-pizza-ratings.firebasestorage.app", "messagingSenderId": "970062553874", "appId": "1:970062553874:web:16646752e7fac0a28d09cb"};
 const LS_CART = 'cart_' + SHOP.code;
 const LS_RATE = 'rate_' + SHOP.code;
+const LS_DEVICE = 'device_id';
 let cart = JSON.parse(localStorage.getItem(LS_CART) || '{}');
-let ratings = JSON.parse(localStorage.getItem(LS_RATE) || '{}');
+let myRatings = JSON.parse(localStorage.getItem(LS_RATE) || '{}');
+let shared = {};
+let deviceId = localStorage.getItem(LS_DEVICE);
+if(!deviceId){ deviceId = 'd' + Math.random().toString(36).slice(2,12); localStorage.setItem(LS_DEVICE, deviceId); }
 let activeCat = 'All';
+let fbDb = null;
+
+// Load Firebase lazily (after the page shows) so the site stays fast.
+// Shared ratings arrive a moment later and the page updates live.
+function initFirebase(){
+  if(!FB_CONFIG.apiKey || !FB_CONFIG.databaseURL) return;
+  const load = (src)=> new Promise((res, rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+  load('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
+    .then(()=>load('https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js'))
+    .then(()=>{
+      try{
+        if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+        fbDb = firebase.database();
+        fbDb.ref('ratings/' + SHOP.code).on('value', (snap)=>{
+          const val = snap.val() || {};
+          shared = {};
+          Object.entries(val).forEach(([itemId, byDevice])=>{
+            let sum=0, count=0;
+            Object.values(byDevice).forEach(v=>{ const n=Number(v); if(n>=1&&n<=5){ sum+=n; count++; } });
+            if(count) shared[itemId]={sum, count};
+          });
+          render();
+        });
+      }catch(e){ /* stay on local-only ratings */ }
+    }).catch(()=>{ /* offline: local-only ratings */ });
+}
+window.addEventListener('load', ()=> setTimeout(initFirebase, 300));
 
 function priceText(it){
   if(it.price != null){
@@ -152,13 +186,31 @@ function priceText(it){
   return 'Price on call <small>(confirm on order)</small>';
 }
 function starsHTML(it){
-  const mine = ratings[it.id] || 0;
-  let h = '<div class="stars"><span class="note">Rate this item:</span> ';
-  for(let s=1;s<=5;s++){
-    h += `<span class="st${s<=mine?' lit':''}" onclick="rate('${it.id}',${s})">★</span>`;
+  const mine = myRatings[it.id] || 0;
+  const s = shared[it.id];
+  let avgLine = '';
+  if(s && s.count){
+    const avg = s.sum / s.count;
+    let stars = '';
+    for(let i=1;i<=5;i++){ stars += `<span style="color:${i<=Math.round(avg)?'#f59e0b':'#d1d5db'}">★</span>`; }
+    avgLine = `<div class="avg">${stars} <b>${avg.toFixed(1)}</b> (${s.count} rating${s.count>1?'s':''})</div>`;
+  } else {
+    avgLine = '<div class="avg">No ratings yet — be the first!</div>';
   }
-  h += mine ? ` <span class="note">Your rating: ${mine}/5</span>` : ' <span class="note">Tap a star after your order</span>';
+  let h = '<div class="stars">' + avgLine + '<span class="note">Your rating:</span> ';
+  for(let s2=1;s2<=5;s2++){
+    h += `<span class="st${s2<=mine?' lit':''}" onclick="rate('${it.id}',${s2})">★</span>`;
+  }
+  h += mine ? ` <span class="note">You rated ${mine}/5</span>` : ' <span class="note">Tap a star after your order</span>';
   return h + '</div>';
+}
+function bestSellers(){
+  const rated = MENU.filter(i=>shared[i.id] && shared[i.id].count>0)
+    .map(i=>({it:i, avg:shared[i.id].sum/shared[i.id].count, count:shared[i.id].count}))
+    .sort((a,b)=> b.avg-a.avg || b.count-a.count);
+  const picks = rated.slice(0,4).map(r=>r.it);
+  for(const it of MENU){ if(picks.length>=4) break; if(it.best && !picks.includes(it)) picks.push(it); }
+  return picks;
 }
 function cardHTML(it){
   const q = cart[it.id] || 0;
@@ -174,7 +226,7 @@ function cardHTML(it){
   </div>`;
 }
 function render(){
-  document.getElementById('bestGrid').innerHTML = MENU.filter(i=>i.best).map(cardHTML).join('');
+  document.getElementById('bestGrid').innerHTML = bestSellers().map(cardHTML).join('');
   document.getElementById('dealGrid').innerHTML = MENU.filter(i=>i.deal).map(cardHTML).join('');
   const cats = ['All', ...new Set(MENU.map(i=>i.cat))];
   document.getElementById('chips').innerHTML = cats.map(c=>`<button class="chip${c===activeCat?' on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
@@ -200,7 +252,7 @@ function addTyped(){
   }
   inp.value='';
 }
-function rate(id,s){ ratings[id]=s; localStorage.setItem(LS_RATE, JSON.stringify(ratings)); render(); toast('Thanks! You rated '+s+'/5 ★'); }
+function rate(id,s){ myRatings[id]=s; localStorage.setItem(LS_RATE, JSON.stringify(myRatings)); if(fbDb){ fbDb.ref('ratings/' + SHOP.code + '/' + id + '/' + deviceId).set(s).catch(()=>{}); } render(); toast('Thanks! You rated '+s+'/5 ★'); }
 function cartEntries(){
   return Object.entries(cart).map(([id,q])=>{
     if(id.startsWith('custom:')) return {name:id.slice(7), q, price:null};

@@ -44,6 +44,8 @@ h2 .em{margin-right:6px}
 .qty button{width:32px;height:32px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:18px;cursor:pointer}
 .qty b{min-width:20px;text-align:center}
 .stars{margin-top:9px;font-size:13px;color:#6b7280}
+.stars .avg{font-size:13px;color:#1f2937;margin-bottom:2px}
+.stars .avg b{color:#b45309}
 .stars .st{font-size:19px;cursor:pointer;color:#d1d5db;letter-spacing:2px}
 .stars .st.lit{color:#f59e0b}
 .stars .note{font-size:12px}
@@ -137,11 +139,43 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:18px 0 8px}
 <script>
 const SHOP = {"folder": "al-zaiqa-take-away", "code": "PM-PZ-07", "name": "Al Zaiqa Take Away", "tag": "Fast food, fresh taste — Sadar Bazar, Pirmahal", "addr": "Sadar Bazar, Pirmahal", "phones": ["0326-6326000"], "wa": "923266326000", "hours": "1:00 PM – 1:00 AM (daily)", "rating": "", "delivery": "Takeaway", "about": "Al Zaiqa Take Away Spot — fast food in Sadar Bazar, Pirmahal. Pizza, burgers, shawarma and more, made fresh and ready to take away.", "deals_note": "Ask the shop on WhatsApp for today's discount — deal prices are confirmed when you order.", "theme": {"hdr1": "#111827", "hdr2": "#000000", "hdr_text": "#ffc107", "primary": "#ffb300", "primary_dark": "#e65100", "btn_text": "#111827", "bg": "#fff8e1", "price": "#bf360c", "order_shadow": "rgba(255,179,0,.28)"}, "menu": [{"id": "p1", "name": "Chicken Tikka Pizza", "cat": "Pizza", "desc": "Desi tikka chicken pizza, fresh from the oven.", "emoji": "🍕", "best": true}, {"id": "p2", "name": "Chicken Fajita Pizza", "cat": "Pizza", "desc": "Fajita chicken with capsicum and cheese.", "emoji": "🍕"}, {"id": "p3", "name": "Cheese Pizza", "cat": "Pizza", "desc": "Classic cheese pizza.", "emoji": "🧀"}, {"id": "p4", "name": "BBQ Chicken Pizza", "cat": "Pizza", "desc": "Smoky BBQ chicken pizza.", "emoji": "🍕"}, {"id": "p5", "name": "Vegetable Pizza", "cat": "Pizza", "desc": "Fresh vegetables, cheesy base.", "emoji": "🥦"}, {"id": "b1", "name": "Zinger Burger", "cat": "Burgers", "desc": "Crispy zinger with sauce.", "emoji": "🍔", "best": true}, {"id": "b2", "name": "Chicken Burger", "cat": "Burgers", "desc": "Grilled chicken burger.", "emoji": "🍔"}, {"id": "b3", "name": "Beef Burger", "cat": "Burgers", "desc": "Juicy beef burger.", "emoji": "🍔"}, {"id": "s1", "name": "Chicken Shawarma", "cat": "Wraps & Rolls", "desc": "Juicy chicken shawarma.", "emoji": "🌯", "best": true}, {"id": "s2", "name": "Malai Boti Roll", "cat": "Wraps & Rolls", "desc": "Creamy malai boti roll.", "emoji": "🌯"}, {"id": "s3", "name": "Chicken Paratha Roll", "cat": "Wraps & Rolls", "desc": "Paratha roll with spicy chicken.", "emoji": "🌯"}, {"id": "s4", "name": "French Fries", "cat": "Sides", "desc": "Golden fries.", "emoji": "🍟"}, {"id": "s5", "name": "Loaded Fries", "cat": "Sides", "desc": "Fries with cheese and sauce.", "emoji": "🍟"}, {"id": "s6", "name": "Chicken Wings", "cat": "Sides", "desc": "Hot and crispy wings.", "emoji": "🍗"}, {"id": "s7", "name": "Chicken Nuggets", "cat": "Sides", "desc": "Crispy nuggets.", "emoji": "🍗"}, {"id": "d1", "name": "Family Deal", "cat": "Deals", "desc": "Two pizzas + fries + drink.", "emoji": "🎁", "deal": true}, {"id": "d2", "name": "Friends Deal", "cat": "Deals", "desc": "Pizza + burgers + drink.", "emoji": "🎁", "deal": true}, {"id": "d3", "name": "Zaiqa Special Deal", "cat": "Deals", "desc": "The house special combo.", "emoji": "🎁", "deal": true}, {"id": "dr1", "name": "Cold Drink 1.5 Ltr", "cat": "Drinks", "desc": "Chilled soft drink.", "emoji": "🥤"}, {"id": "dr2", "name": "Cold Drink (Can)", "cat": "Drinks", "desc": "Chilled soft drink can.", "emoji": "🥤"}, {"id": "dr3", "name": "Mineral Water", "cat": "Drinks", "desc": "Pure mineral water.", "emoji": "💧"}]};
 const MENU = SHOP.menu;
+const FB_CONFIG = {"apiKey": "AIzaSyCFa9fGrVXR0T0sskmyOMMjxBm_MOhODWo", "authDomain": "pirmahal-pizza-ratings.firebaseapp.com", "databaseURL": "https://pirmahal-pizza-ratings-default-rtdb.firebaseio.com", "projectId": "pirmahal-pizza-ratings", "storageBucket": "pirmahal-pizza-ratings.firebasestorage.app", "messagingSenderId": "970062553874", "appId": "1:970062553874:web:16646752e7fac0a28d09cb"};
 const LS_CART = 'cart_' + SHOP.code;
 const LS_RATE = 'rate_' + SHOP.code;
+const LS_DEVICE = 'device_id';
 let cart = JSON.parse(localStorage.getItem(LS_CART) || '{}');
-let ratings = JSON.parse(localStorage.getItem(LS_RATE) || '{}');
+let myRatings = JSON.parse(localStorage.getItem(LS_RATE) || '{}');
+let shared = {};
+let deviceId = localStorage.getItem(LS_DEVICE);
+if(!deviceId){ deviceId = 'd' + Math.random().toString(36).slice(2,12); localStorage.setItem(LS_DEVICE, deviceId); }
 let activeCat = 'All';
+let fbDb = null;
+
+// Load Firebase lazily (after the page shows) so the site stays fast.
+// Shared ratings arrive a moment later and the page updates live.
+function initFirebase(){
+  if(!FB_CONFIG.apiKey || !FB_CONFIG.databaseURL) return;
+  const load = (src)=> new Promise((res, rej)=>{ const s=document.createElement('script'); s.src=src; s.onload=res; s.onerror=rej; document.head.appendChild(s); });
+  load('https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js')
+    .then(()=>load('https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js'))
+    .then(()=>{
+      try{
+        if(!firebase.apps.length) firebase.initializeApp(FB_CONFIG);
+        fbDb = firebase.database();
+        fbDb.ref('ratings/' + SHOP.code).on('value', (snap)=>{
+          const val = snap.val() || {};
+          shared = {};
+          Object.entries(val).forEach(([itemId, byDevice])=>{
+            let sum=0, count=0;
+            Object.values(byDevice).forEach(v=>{ const n=Number(v); if(n>=1&&n<=5){ sum+=n; count++; } });
+            if(count) shared[itemId]={sum, count};
+          });
+          render();
+        });
+      }catch(e){ /* stay on local-only ratings */ }
+    }).catch(()=>{ /* offline: local-only ratings */ });
+}
+window.addEventListener('load', ()=> setTimeout(initFirebase, 300));
 
 function priceText(it){
   if(it.price != null){
@@ -152,13 +186,31 @@ function priceText(it){
   return 'Price on call <small>(confirm on order)</small>';
 }
 function starsHTML(it){
-  const mine = ratings[it.id] || 0;
-  let h = '<div class="stars"><span class="note">Rate this item:</span> ';
-  for(let s=1;s<=5;s++){
-    h += `<span class="st${s<=mine?' lit':''}" onclick="rate('${it.id}',${s})">★</span>`;
+  const mine = myRatings[it.id] || 0;
+  const s = shared[it.id];
+  let avgLine = '';
+  if(s && s.count){
+    const avg = s.sum / s.count;
+    let stars = '';
+    for(let i=1;i<=5;i++){ stars += `<span style="color:${i<=Math.round(avg)?'#f59e0b':'#d1d5db'}">★</span>`; }
+    avgLine = `<div class="avg">${stars} <b>${avg.toFixed(1)}</b> (${s.count} rating${s.count>1?'s':''})</div>`;
+  } else {
+    avgLine = '<div class="avg">No ratings yet — be the first!</div>';
   }
-  h += mine ? ` <span class="note">Your rating: ${mine}/5</span>` : ' <span class="note">Tap a star after your order</span>';
+  let h = '<div class="stars">' + avgLine + '<span class="note">Your rating:</span> ';
+  for(let s2=1;s2<=5;s2++){
+    h += `<span class="st${s2<=mine?' lit':''}" onclick="rate('${it.id}',${s2})">★</span>`;
+  }
+  h += mine ? ` <span class="note">You rated ${mine}/5</span>` : ' <span class="note">Tap a star after your order</span>';
   return h + '</div>';
+}
+function bestSellers(){
+  const rated = MENU.filter(i=>shared[i.id] && shared[i.id].count>0)
+    .map(i=>({it:i, avg:shared[i.id].sum/shared[i.id].count, count:shared[i.id].count}))
+    .sort((a,b)=> b.avg-a.avg || b.count-a.count);
+  const picks = rated.slice(0,4).map(r=>r.it);
+  for(const it of MENU){ if(picks.length>=4) break; if(it.best && !picks.includes(it)) picks.push(it); }
+  return picks;
 }
 function cardHTML(it){
   const q = cart[it.id] || 0;
@@ -174,7 +226,7 @@ function cardHTML(it){
   </div>`;
 }
 function render(){
-  document.getElementById('bestGrid').innerHTML = MENU.filter(i=>i.best).map(cardHTML).join('');
+  document.getElementById('bestGrid').innerHTML = bestSellers().map(cardHTML).join('');
   document.getElementById('dealGrid').innerHTML = MENU.filter(i=>i.deal).map(cardHTML).join('');
   const cats = ['All', ...new Set(MENU.map(i=>i.cat))];
   document.getElementById('chips').innerHTML = cats.map(c=>`<button class="chip${c===activeCat?' on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
@@ -200,7 +252,7 @@ function addTyped(){
   }
   inp.value='';
 }
-function rate(id,s){ ratings[id]=s; localStorage.setItem(LS_RATE, JSON.stringify(ratings)); render(); toast('Thanks! You rated '+s+'/5 ★'); }
+function rate(id,s){ myRatings[id]=s; localStorage.setItem(LS_RATE, JSON.stringify(myRatings)); if(fbDb){ fbDb.ref('ratings/' + SHOP.code + '/' + id + '/' + deviceId).set(s).catch(()=>{}); } render(); toast('Thanks! You rated '+s+'/5 ★'); }
 function cartEntries(){
   return Object.entries(cart).map(([id,q])=>{
     if(id.startsWith('custom:')) return {name:id.slice(7), q, price:null};
