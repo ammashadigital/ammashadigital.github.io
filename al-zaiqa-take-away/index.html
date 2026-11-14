@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al Zaiqa Take Away — Pirmahal | Order Online</title>
+<meta name="description" content="Al Zaiqa Take Away, Pirmahal. Best sellers, deals, full menu and online ordering on WhatsApp.">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#fff8f0;color:#1f2937;line-height:1.5}
+a{color:#b91c1c}
+header{background:linear-gradient(135deg,#7f1d1d,#b91c1c);color:#fff;padding:22px 16px 18px;text-align:center}
+header h1{font-size:26px;line-height:1.2}
+header .tag{opacity:.92;font-size:14px;margin-top:4px}
+.badges{margin-top:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.pill{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);border-radius:99px;padding:3px 10px;font-size:12px}
+.wrap{max-width:860px;margin:0 auto;padding:0 14px 120px}
+.info{background:#fff;border:1px solid #fde68a;border-radius:14px;padding:14px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.info p{font-size:14px;margin:3px 0}
+.cta-row{display:flex;gap:10px;margin-top:12px}
+.btn{flex:1;text-align:center;padding:12px 10px;border-radius:10px;font-weight:700;text-decoration:none;font-size:15px}
+.btn-call{background:#1f2937;color:#fff}
+.btn-wa{background:#16a34a;color:#fff}
+h2{font-size:21px;margin:26px 0 4px}
+h2 .em{margin-right:6px}
+.sub{color:#6b7280;font-size:13px;margin-bottom:12px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch}
+.chip{white-space:nowrap;border:1px solid #d1d5db;background:#fff;border-radius:99px;padding:7px 14px;font-size:14px;cursor:pointer}
+.chip.on{background:#b91c1c;color:#fff;border-color:#b91c1c}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:13px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.card .top{display:flex;gap:10px}
+.emoji{font-size:30px;line-height:1}
+.card h3{font-size:15px;line-height:1.3}
+.card .desc{font-size:13px;color:#6b7280;margin-top:3px}
+.price{font-weight:800;color:#b91c1c;margin-top:6px;font-size:14px}
+.price small{color:#6b7280;font-weight:400}
+.tag-best{display:inline-block;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px}
+.tag-deal{display:inline-block;background:#dcfce7;color:#166534;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px}
+.addrow{display:flex;gap:8px;align-items:center;margin-top:10px}
+.addbtn{flex:1;background:#b91c1c;color:#fff;border:0;border-radius:9px;padding:9px;font-weight:700;font-size:14px;cursor:pointer}
+.qty{display:flex;align-items:center;gap:8px}
+.qty button{width:32px;height:32px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:18px;cursor:pointer}
+.qty b{min-width:20px;text-align:center}
+.stars{margin-top:9px;font-size:13px;color:#6b7280}
+.stars .st{font-size:19px;cursor:pointer;color:#d1d5db;letter-spacing:2px}
+.stars .st.lit{color:#f59e0b}
+.stars .note{font-size:12px}
+.order{background:#fff;border:2px solid #b91c1c;border-radius:16px;padding:16px;margin-top:8px;box-shadow:0 4px 14px rgba(185,28,28,.12)}
+.order h2{margin-top:0}
+.oline{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed #e5e7eb;font-size:14px}
+.oline .nm{flex:1}
+.oline .rm{background:none;border:0;color:#dc2626;font-size:18px;cursor:pointer}
+.oline .qty button{width:28px;height:28px}
+.typeadd{display:flex;gap:8px;margin:12px 0}
+.typeadd input{flex:1;padding:11px;border:1px solid #d1d5db;border-radius:9px;font-size:15px}
+.typeadd button{background:#1f2937;color:#fff;border:0;border-radius:9px;padding:0 16px;font-weight:700;cursor:pointer}
+.total{font-size:17px;font-weight:800;margin:10px 0}
+.total small{display:block;font-size:12px;color:#6b7280;font-weight:400}
+.name-row{display:flex;gap:8px;margin-bottom:10px}
+.name-row input,.name-row select{flex:1;padding:11px;border:1px solid #d1d5db;border-radius:9px;font-size:15px}
+.pay{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:12px;font-size:13px;line-height:1.6;margin-top:14px}
+.pay b{color:#166534}
+.empty{color:#6b7280;font-size:14px;padding:8px 0}
+.bottombar{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;gap:10px;padding:10px 14px;box-shadow:0 -2px 10px rgba(0,0,0,.08);z-index:50}
+.bottombar a{flex:1;text-align:center;padding:12px;border-radius:10px;font-weight:700;text-decoration:none}
+.bottombar .c{background:#1f2937;color:#fff}
+.bottombar .w{background:#16a34a;color:#fff}
+.toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#1f2937;color:#fff;padding:9px 16px;border-radius:99px;font-size:14px;display:none;z-index:60}
+footer{text-align:center;color:#9ca3af;font-size:12px;padding:18px 0 8px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Al Zaiqa Take Away</h1>
+  <div class="tag">Fast food, fresh taste — Sadar Bazar, Pirmahal</div>
+  <div class="badges"><span class="pill">PM-PZ-07</span><span class="pill">📍 Pirmahal</span><span class="pill">🕐 1:00 PM – 1:00 AM (daily)</span></div>
+</header>
+<div class="wrap">
+  <div class="info">
+    <p>📍 Sadar Bazar, Pirmahal</p>
+    <p>📞 0326-6326000 &nbsp;•&nbsp; Takeaway</p>
+    <p>Al Zaiqa Take Away Spot — fast food in Sadar Bazar, Pirmahal. Pizza, burgers, shawarma and more, made fresh and ready to take away.</p>
+    <div class="cta-row">
+      <a class="btn btn-call" href="tel:03266326000">📞 Call Now</a>
+      <a class="btn btn-wa" href="https://wa.me/923266326000">💬 WhatsApp</a>
+    </div>
+  </div>
+
+  <h2><span class="em">⭐</span>Best Sellers</h2>
+  <p class="sub">Most loved by customers — tap Add to put one in your order.</p>
+  <div class="grid" id="bestGrid"></div>
+
+  <h2><span class="em">🏷️</span>Discounts &amp; Deals</h2>
+  <p class="sub">Ask the shop on WhatsApp for today's discount — deal prices are confirmed when you order.</p>
+  <div class="grid" id="dealGrid"></div>
+
+  <h2><span class="em">🍽️</span>All Products</h2>
+  <p class="sub">Everything on the menu. Prices marked “Price on call” are confirmed by the shop when you order.</p>
+  <div class="chips" id="chips"></div>
+  <div class="grid" id="allGrid"></div>
+
+  <h2><span class="em">🧾</span>Your Order</h2>
+  <div class="order" id="orderBox">
+    <div id="orderList"><p class="empty">Your order is empty. Tap <b>Add</b> on any item, or type an item name below.</p></div>
+    <div class="typeadd">
+      <input id="typeName" list="menuList" placeholder="Type an item name, e.g. Zinger Burger…" autocomplete="off">
+      <datalist id="menuList"></datalist>
+      <button onclick="addTyped()">Add</button>
+    </div>
+    <div class="name-row">
+      <input id="custName" placeholder="Your name (optional)">
+      <select id="fulfil"><option value="Delivery">Delivery</option><option value="Takeaway">Takeaway</option><option value="Dine-in">Dine-in</option></select>
+    </div>
+    <div class="total" id="totalLine">Total: Price on call</div>
+    <div class="cta-row">
+      <a class="btn btn-wa" href="#" onclick="orderWA(event)">💬 Order on WhatsApp</a>
+      <a class="btn btn-call" href="#" onclick="copyOrder(event)">📋 Copy Order</a>
+    </div>
+    <div class="pay" id="mz-order-pay"><b>Order on WhatsApp &amp; How to Pay:</b><br>
+    1. Select your items above, or type an item name to add it.<br>
+    2. Tap <b>Order on WhatsApp</b> — your order opens in WhatsApp, already written. Nothing is sent until you press send.<br>
+    3. The shop confirms the total bill and delivery time in that chat.<br>
+    4. Pay <b>only</b> on the payment details the shop itself sends in that chat (for example cash on delivery or mobile payment).<br>
+    5. Send your payment screenshot in the same chat to confirm.</div>
+  </div>
+  <footer>Al Zaiqa Take Away • PM-PZ-07 • Pirmahal • Menu &amp; prices confirmed by the shop when you order.</footer>
+</div>
+
+<div class="bottombar">
+  <a class="c" href="tel:03266326000">📞 Call Now</a>
+  <a class="w" href="https://wa.me/923266326000">💬 WhatsApp</a>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const SHOP = {"folder": "al-zaiqa-take-away", "code": "PM-PZ-07", "name": "Al Zaiqa Take Away", "tag": "Fast food, fresh taste — Sadar Bazar, Pirmahal", "addr": "Sadar Bazar, Pirmahal", "phones": ["0326-6326000"], "wa": "923266326000", "hours": "1:00 PM – 1:00 AM (daily)", "rating": "", "delivery": "Takeaway", "about": "Al Zaiqa Take Away Spot — fast food in Sadar Bazar, Pirmahal. Pizza, burgers, shawarma and more, made fresh and ready to take away.", "deals_note": "Ask the shop on WhatsApp for today's discount — deal prices are confirmed when you order.", "menu": [{"id": "p1", "name": "Chicken Tikka Pizza", "cat": "Pizza", "desc": "Desi tikka chicken pizza, fresh from the oven.", "emoji": "🍕", "best": true}, {"id": "p2", "name": "Chicken Fajita Pizza", "cat": "Pizza", "desc": "Fajita chicken with capsicum and cheese.", "emoji": "🍕"}, {"id": "p3", "name": "Cheese Pizza", "cat": "Pizza", "desc": "Classic cheese pizza.", "emoji": "🧀"}, {"id": "p4", "name": "BBQ Chicken Pizza", "cat": "Pizza", "desc": "Smoky BBQ chicken pizza.", "emoji": "🍕"}, {"id": "p5", "name": "Vegetable Pizza", "cat": "Pizza", "desc": "Fresh vegetables, cheesy base.", "emoji": "🥦"}, {"id": "b1", "name": "Zinger Burger", "cat": "Burgers", "desc": "Crispy zinger with sauce.", "emoji": "🍔", "best": true}, {"id": "b2", "name": "Chicken Burger", "cat": "Burgers", "desc": "Grilled chicken burger.", "emoji": "🍔"}, {"id": "b3", "name": "Beef Burger", "cat": "Burgers", "desc": "Juicy beef burger.", "emoji": "🍔"}, {"id": "s1", "name": "Chicken Shawarma", "cat": "Wraps & Rolls", "desc": "Juicy chicken shawarma.", "emoji": "🌯", "best": true}, {"id": "s2", "name": "Malai Boti Roll", "cat": "Wraps & Rolls", "desc": "Creamy malai boti roll.", "emoji": "🌯"}, {"id": "s3", "name": "Chicken Paratha Roll", "cat": "Wraps & Rolls", "desc": "Paratha roll with spicy chicken.", "emoji": "🌯"}, {"id": "s4", "name": "French Fries", "cat": "Sides", "desc": "Golden fries.", "emoji": "🍟"}, {"id": "s5", "name": "Loaded Fries", "cat": "Sides", "desc": "Fries with cheese and sauce.", "emoji": "🍟"}, {"id": "s6", "name": "Chicken Wings", "cat": "Sides", "desc": "Hot and crispy wings.", "emoji": "🍗"}, {"id": "s7", "name": "Chicken Nuggets", "cat": "Sides", "desc": "Crispy nuggets.", "emoji": "🍗"}, {"id": "d1", "name": "Family Deal", "cat": "Deals", "desc": "Two pizzas + fries + drink.", "emoji": "🎁", "deal": true}, {"id": "d2", "name": "Friends Deal", "cat": "Deals", "desc": "Pizza + burgers + drink.", "emoji": "🎁", "deal": true}, {"id": "d3", "name": "Zaiqa Special Deal", "cat": "Deals", "desc": "The house special combo.", "emoji": "🎁", "deal": true}, {"id": "dr1", "name": "Cold Drink 1.5 Ltr", "cat": "Drinks", "desc": "Chilled soft drink.", "emoji": "🥤"}, {"id": "dr2", "name": "Cold Drink (Can)", "cat": "Drinks", "desc": "Chilled soft drink can.", "emoji": "🥤"}, {"id": "dr3", "name": "Mineral Water", "cat": "Drinks", "desc": "Pure mineral water.", "emoji": "💧"}]};
+const MENU = SHOP.menu;
+const LS_CART = 'cart_' + SHOP.code;
+const LS_RATE = 'rate_' + SHOP.code;
+let cart = JSON.parse(localStorage.getItem(LS_CART) || '{}');
+let ratings = JSON.parse(localStorage.getItem(LS_RATE) || '{}');
+let activeCat = 'All';
+
+function priceText(it){
+  if(it.price != null){
+    let t = 'Rs. ' + it.price.toLocaleString();
+    if(it.oldPrice) t = '<s style="color:#9ca3af;font-weight:400">Rs. '+it.oldPrice.toLocaleString()+'</s> ' + t;
+    return t;
+  }
+  return 'Price on call <small>(confirm on order)</small>';
+}
+function starsHTML(it){
+  const mine = ratings[it.id] || 0;
+  let h = '<div class="stars"><span class="note">Rate this item:</span> ';
+  for(let s=1;s<=5;s++){
+    h += `<span class="st${s<=mine?' lit':''}" onclick="rate('${it.id}',${s})">★</span>`;
+  }
+  h += mine ? ` <span class="note">Your rating: ${mine}/5</span>` : ' <span class="note">Tap a star after your order</span>';
+  return h + '</div>';
+}
+function cardHTML(it){
+  const q = cart[it.id] || 0;
+  const ctrl = q>0
+    ? `<div class="qty"><button onclick="chQty('${it.id}',-1)">−</button><b>${q}</b><button onclick="chQty('${it.id}',1)">+</button></div>`
+    : `<button class="addbtn" onclick="addItem('${it.id}')">+ Add</button>`;
+  const tag = it.best ? '<span class="tag-best">⭐ Best Seller</span>' : (it.deal ? '<span class="tag-deal">🏷️ Deal</span>' : '');
+  return `<div class="card" data-cat="${it.cat}">
+    <div class="top"><div class="emoji">${it.emoji}</div><div><h3>${it.name}</h3><div class="desc">${it.desc}</div></div></div>
+    <div class="price">${priceText(it)}</div>${tag}
+    <div class="addrow">${ctrl}</div>
+    ${starsHTML(it)}
+  </div>`;
+}
+function render(){
+  document.getElementById('bestGrid').innerHTML = MENU.filter(i=>i.best).map(cardHTML).join('');
+  document.getElementById('dealGrid').innerHTML = MENU.filter(i=>i.deal).map(cardHTML).join('');
+  const cats = ['All', ...new Set(MENU.map(i=>i.cat))];
+  document.getElementById('chips').innerHTML = cats.map(c=>`<button class="chip${c===activeCat?' on':''}" onclick="setCat('${c}')">${c}</button>`).join('');
+  const list = activeCat==='All' ? MENU : MENU.filter(i=>i.cat===activeCat);
+  document.getElementById('allGrid').innerHTML = list.map(cardHTML).join('');
+  document.getElementById('menuList').innerHTML = MENU.map(i=>`<option value="${i.name}">`).join('');
+  renderOrder();
+}
+function setCat(c){ activeCat=c; render(); }
+function saveCart(){ localStorage.setItem(LS_CART, JSON.stringify(cart)); }
+function toast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.style.display='block'; setTimeout(()=>t.style.display='none',1800); }
+function addItem(id){ cart[id]=(cart[id]||0)+1; saveCart(); render(); const it=MENU.find(i=>i.id===id); toast(it.name+' added ✓'); }
+function chQty(id,d){ cart[id]=(cart[id]||0)+d; if(cart[id]<=0) delete cart[id]; saveCart(); render(); }
+function removeItem(id){ delete cart[id]; saveCart(); render(); }
+function addTyped(){
+  const inp=document.getElementById('typeName');
+  const name=inp.value.trim(); if(!name) return;
+  const found=MENU.find(i=>i.name.toLowerCase()===name.toLowerCase()) || MENU.find(i=>i.name.toLowerCase().includes(name.toLowerCase()));
+  if(found){ addItem(found.id); }
+  else{
+    const id='custom:'+name.toLowerCase();
+    cart[id]=(cart[id]||0)+1; saveCart(); render(); toast(name+' added ✓');
+  }
+  inp.value='';
+}
+function rate(id,s){ ratings[id]=s; localStorage.setItem(LS_RATE, JSON.stringify(ratings)); render(); toast('Thanks! You rated '+s+'/5 ★'); }
+function cartEntries(){
+  return Object.entries(cart).map(([id,q])=>{
+    if(id.startsWith('custom:')) return {name:id.slice(7), q, price:null};
+    const it=MENU.find(i=>i.id===id); if(!it) return null;
+    return {name:it.name, q, price:it.price ?? null};
+  }).filter(Boolean);
+}
+function renderOrder(){
+  const box=document.getElementById('orderList');
+  const entries=cartEntries();
+  if(!entries.length){ box.innerHTML='<p class="empty">Your order is empty. Tap <b>Add</b> on any item, or type an item name below.</p>'; document.getElementById('totalLine').innerHTML='Total: Price on call'; return; }
+  let known=0, unknown=0;
+  box.innerHTML = entries.map(e=>{
+    if(e.price!=null) known += e.price*e.q; else unknown++;
+    const id = e.name && MENU.find(i=>i.name===e.name) ? MENU.find(i=>i.name===e.name).id : 'custom:'+e.name.toLowerCase();
+    return `<div class="oline"><span class="nm">${e.name}</span>
+      <span class="qty"><button onclick="chQty('${id}',-1)">−</button><b>${e.q}</b><button onclick="chQty('${id}',1)">+</button></span>
+      <span>${e.price!=null ? 'Rs. '+(e.price*e.q).toLocaleString() : 'Price on call'}</span>
+      <button class="rm" title="Remove" onclick="removeItem('${id}')">✕</button></div>`;
+  }).join('');
+  document.getElementById('totalLine').innerHTML = known>0
+    ? `Total: Rs. ${known.toLocaleString()}${unknown? ' + '+unknown+' item(s) price on call':''}<small>Items marked “Price on call” are confirmed by the shop.</small>`
+    : 'Total: Price on call<small>The shop will confirm the total bill on WhatsApp.</small>';
+}
+function orderText(){
+  const entries=cartEntries();
+  const name=document.getElementById('custName').value.trim();
+  const fulfil=document.getElementById('fulfil').value;
+  let lines=[`Assalam-o-Alaikum, ${SHOP.name} — I would like to place an order:`,''];
+  entries.forEach(e=>{ lines.push(`• ${e.name} x${e.q}${e.price!=null?' — Rs. '+(e.price*e.q).toLocaleString():''}`); });
+  lines.push('', `Order type: ${fulfil}`);
+  if(name) lines.push('Name: '+name);
+  lines.push('', 'Please confirm the total bill and delivery time. Shukriya!');
+  return lines.join('\n');
+}
+function orderWA(ev){
+  ev.preventDefault();
+  if(!cartEntries().length){ toast('Add an item to your order first'); return; }
+  if(!SHOP.wa){ toast('This shop takes orders by phone — please call'); return; }
+  window.open('https://wa.me/'+SHOP.wa+'?text='+encodeURIComponent(orderText()), '_blank');
+}
+function copyOrder(ev){
+  ev.preventDefault();
+  if(!cartEntries().length){ toast('Add an item to your order first'); return; }
+  const t=orderText();
+  if(navigator.clipboard) navigator.clipboard.writeText(t).then(()=>toast('Order copied ✓'));
+  else { const ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); toast('Order copied ✓'); }
+}
+document.getElementById('typeName').addEventListener('keydown', e=>{ if(e.key==='Enter'){ e.preventDefault(); addTyped(); } });
+render();
+</script>
+</body>
+</html>
