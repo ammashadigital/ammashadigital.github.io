@@ -186,7 +186,7 @@
       <label for="pnote">What is the problem? (optional)</label>
       <textarea id="pnote" rows="3" placeholder="Briefly describe the problem"></textarea>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
-        <button class="btn" type="button" style="background:#25d366;color:#fff" onclick="bookWhatsApp()">📱 Book Appointment on WhatsApp</button>
+        <a id="waBtn" class="btn" style="background:#25d366;color:#fff" href="https://wa.me/923216280045" target="_blank" rel="noopener">📱 Book Appointment on WhatsApp</a>
         <button class="btn btn-teal" type="button" onclick="makeBooking()">Show My Appointment</button>
         <button class="btn" type="button" style="background:#e2e8f0" onclick="copyBooking()">Copy Details</button>
       </div>
@@ -254,11 +254,17 @@ function bookingText(){
   if(nt){t+='\nProblem: '+nt;}
   return t;
 }
-function bookWhatsApp(){
+function updateWaLink(){
   var t=bookingText();
-  var url='https://wa.me/923216280045?text='+encodeURIComponent(t+'\n\nPlease confirm my appointment time.');
-  window.open(url,'_blank');
+  document.getElementById('waBtn').href='https://wa.me/923216280045?text='+encodeURIComponent(t+'\n\nPlease confirm my appointment time.');
 }
+['pname','pphone','pdoc','pdate','pnote'].forEach(function(id){
+  var el=document.getElementById(id);
+  el.addEventListener('input',updateWaLink);
+  el.addEventListener('change',updateWaLink);
+});
+document.getElementById('waBtn').addEventListener('click',updateWaLink);
+updateWaLink();
 function makeBooking(){
   var s=document.getElementById('summary');
   s.style.display='block';
