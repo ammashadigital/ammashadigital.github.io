@@ -7,9 +7,9 @@
 <meta name="description" content="Al Zaiqa Take Away, Pirmahal. Best sellers, deals, full menu and online ordering on WhatsApp.">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#fff8f0;color:#1f2937;line-height:1.5}
-a{color:#b91c1c}
-header{background:linear-gradient(135deg,#7f1d1d,#b91c1c);color:#fff;padding:22px 16px 18px;text-align:center}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#fff8e1;color:#1f2937;line-height:1.5}
+a{color:#e65100}
+header{background:linear-gradient(135deg,#111827,#000000);color:#ffc107;padding:22px 16px 18px;text-align:center}
 header h1{font-size:26px;line-height:1.2}
 header .tag{opacity:.92;font-size:14px;margin-top:4px}
 .badges{margin-top:10px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
@@ -26,7 +26,7 @@ h2 .em{margin-right:6px}
 .sub{color:#6b7280;font-size:13px;margin-bottom:12px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch}
 .chip{white-space:nowrap;border:1px solid #d1d5db;background:#fff;border-radius:99px;padding:7px 14px;font-size:14px;cursor:pointer}
-.chip.on{background:#b91c1c;color:#fff;border-color:#b91c1c}
+.chip.on{background:#ffb300;color:#111827;border-color:#ffb300}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media(max-width:560px){.grid{grid-template-columns:1fr}}
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:13px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
@@ -34,12 +34,12 @@ h2 .em{margin-right:6px}
 .emoji{font-size:30px;line-height:1}
 .card h3{font-size:15px;line-height:1.3}
 .card .desc{font-size:13px;color:#6b7280;margin-top:3px}
-.price{font-weight:800;color:#b91c1c;margin-top:6px;font-size:14px}
+.price{font-weight:800;color:#bf360c;margin-top:6px;font-size:14px}
 .price small{color:#6b7280;font-weight:400}
 .tag-best{display:inline-block;background:#fef3c7;color:#92400e;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px}
 .tag-deal{display:inline-block;background:#dcfce7;color:#166534;font-size:11px;font-weight:700;border-radius:99px;padding:2px 8px;margin-top:6px}
 .addrow{display:flex;gap:8px;align-items:center;margin-top:10px}
-.addbtn{flex:1;background:#b91c1c;color:#fff;border:0;border-radius:9px;padding:9px;font-weight:700;font-size:14px;cursor:pointer}
+.addbtn{flex:1;background:#ffb300;color:#111827;border:0;border-radius:9px;padding:9px;font-weight:700;font-size:14px;cursor:pointer}
 .qty{display:flex;align-items:center;gap:8px}
 .qty button{width:32px;height:32px;border-radius:8px;border:1px solid #d1d5db;background:#fff;font-size:18px;cursor:pointer}
 .qty b{min-width:20px;text-align:center}
@@ -47,7 +47,7 @@ h2 .em{margin-right:6px}
 .stars .st{font-size:19px;cursor:pointer;color:#d1d5db;letter-spacing:2px}
 .stars .st.lit{color:#f59e0b}
 .stars .note{font-size:12px}
-.order{background:#fff;border:2px solid #b91c1c;border-radius:16px;padding:16px;margin-top:8px;box-shadow:0 4px 14px rgba(185,28,28,.12)}
+.order{background:#fff;border:2px solid #ffb300;border-radius:16px;padding:16px;margin-top:8px;box-shadow:0 4px 14px rgba(255,179,0,.28)}
 .order h2{margin-top:0}
 .oline{display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px dashed #e5e7eb;font-size:14px}
 .oline .nm{flex:1}
@@ -135,7 +135,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:18px 0 8px}
 <div class="toast" id="toast"></div>
 
 <script>
-const SHOP = {"folder": "al-zaiqa-take-away", "code": "PM-PZ-07", "name": "Al Zaiqa Take Away", "tag": "Fast food, fresh taste — Sadar Bazar, Pirmahal", "addr": "Sadar Bazar, Pirmahal", "phones": ["0326-6326000"], "wa": "923266326000", "hours": "1:00 PM – 1:00 AM (daily)", "rating": "", "delivery": "Takeaway", "about": "Al Zaiqa Take Away Spot — fast food in Sadar Bazar, Pirmahal. Pizza, burgers, shawarma and more, made fresh and ready to take away.", "deals_note": "Ask the shop on WhatsApp for today's discount — deal prices are confirmed when you order.", "menu": [{"id": "p1", "name": "Chicken Tikka Pizza", "cat": "Pizza", "desc": "Desi tikka chicken pizza, fresh from the oven.", "emoji": "🍕", "best": true}, {"id": "p2", "name": "Chicken Fajita Pizza", "cat": "Pizza", "desc": "Fajita chicken with capsicum and cheese.", "emoji": "🍕"}, {"id": "p3", "name": "Cheese Pizza", "cat": "Pizza", "desc": "Classic cheese pizza.", "emoji": "🧀"}, {"id": "p4", "name": "BBQ Chicken Pizza", "cat": "Pizza", "desc": "Smoky BBQ chicken pizza.", "emoji": "🍕"}, {"id": "p5", "name": "Vegetable Pizza", "cat": "Pizza", "desc": "Fresh vegetables, cheesy base.", "emoji": "🥦"}, {"id": "b1", "name": "Zinger Burger", "cat": "Burgers", "desc": "Crispy zinger with sauce.", "emoji": "🍔", "best": true}, {"id": "b2", "name": "Chicken Burger", "cat": "Burgers", "desc": "Grilled chicken burger.", "emoji": "🍔"}, {"id": "b3", "name": "Beef Burger", "cat": "Burgers", "desc": "Juicy beef burger.", "emoji": "🍔"}, {"id": "s1", "name": "Chicken Shawarma", "cat": "Wraps & Rolls", "desc": "Juicy chicken shawarma.", "emoji": "🌯", "best": true}, {"id": "s2", "name": "Malai Boti Roll", "cat": "Wraps & Rolls", "desc": "Creamy malai boti roll.", "emoji": "🌯"}, {"id": "s3", "name": "Chicken Paratha Roll", "cat": "Wraps & Rolls", "desc": "Paratha roll with spicy chicken.", "emoji": "🌯"}, {"id": "s4", "name": "French Fries", "cat": "Sides", "desc": "Golden fries.", "emoji": "🍟"}, {"id": "s5", "name": "Loaded Fries", "cat": "Sides", "desc": "Fries with cheese and sauce.", "emoji": "🍟"}, {"id": "s6", "name": "Chicken Wings", "cat": "Sides", "desc": "Hot and crispy wings.", "emoji": "🍗"}, {"id": "s7", "name": "Chicken Nuggets", "cat": "Sides", "desc": "Crispy nuggets.", "emoji": "🍗"}, {"id": "d1", "name": "Family Deal", "cat": "Deals", "desc": "Two pizzas + fries + drink.", "emoji": "🎁", "deal": true}, {"id": "d2", "name": "Friends Deal", "cat": "Deals", "desc": "Pizza + burgers + drink.", "emoji": "🎁", "deal": true}, {"id": "d3", "name": "Zaiqa Special Deal", "cat": "Deals", "desc": "The house special combo.", "emoji": "🎁", "deal": true}, {"id": "dr1", "name": "Cold Drink 1.5 Ltr", "cat": "Drinks", "desc": "Chilled soft drink.", "emoji": "🥤"}, {"id": "dr2", "name": "Cold Drink (Can)", "cat": "Drinks", "desc": "Chilled soft drink can.", "emoji": "🥤"}, {"id": "dr3", "name": "Mineral Water", "cat": "Drinks", "desc": "Pure mineral water.", "emoji": "💧"}]};
+const SHOP = {"folder": "al-zaiqa-take-away", "code": "PM-PZ-07", "name": "Al Zaiqa Take Away", "tag": "Fast food, fresh taste — Sadar Bazar, Pirmahal", "addr": "Sadar Bazar, Pirmahal", "phones": ["0326-6326000"], "wa": "923266326000", "hours": "1:00 PM – 1:00 AM (daily)", "rating": "", "delivery": "Takeaway", "about": "Al Zaiqa Take Away Spot — fast food in Sadar Bazar, Pirmahal. Pizza, burgers, shawarma and more, made fresh and ready to take away.", "deals_note": "Ask the shop on WhatsApp for today's discount — deal prices are confirmed when you order.", "theme": {"hdr1": "#111827", "hdr2": "#000000", "hdr_text": "#ffc107", "primary": "#ffb300", "primary_dark": "#e65100", "btn_text": "#111827", "bg": "#fff8e1", "price": "#bf360c", "order_shadow": "rgba(255,179,0,.28)"}, "menu": [{"id": "p1", "name": "Chicken Tikka Pizza", "cat": "Pizza", "desc": "Desi tikka chicken pizza, fresh from the oven.", "emoji": "🍕", "best": true}, {"id": "p2", "name": "Chicken Fajita Pizza", "cat": "Pizza", "desc": "Fajita chicken with capsicum and cheese.", "emoji": "🍕"}, {"id": "p3", "name": "Cheese Pizza", "cat": "Pizza", "desc": "Classic cheese pizza.", "emoji": "🧀"}, {"id": "p4", "name": "BBQ Chicken Pizza", "cat": "Pizza", "desc": "Smoky BBQ chicken pizza.", "emoji": "🍕"}, {"id": "p5", "name": "Vegetable Pizza", "cat": "Pizza", "desc": "Fresh vegetables, cheesy base.", "emoji": "🥦"}, {"id": "b1", "name": "Zinger Burger", "cat": "Burgers", "desc": "Crispy zinger with sauce.", "emoji": "🍔", "best": true}, {"id": "b2", "name": "Chicken Burger", "cat": "Burgers", "desc": "Grilled chicken burger.", "emoji": "🍔"}, {"id": "b3", "name": "Beef Burger", "cat": "Burgers", "desc": "Juicy beef burger.", "emoji": "🍔"}, {"id": "s1", "name": "Chicken Shawarma", "cat": "Wraps & Rolls", "desc": "Juicy chicken shawarma.", "emoji": "🌯", "best": true}, {"id": "s2", "name": "Malai Boti Roll", "cat": "Wraps & Rolls", "desc": "Creamy malai boti roll.", "emoji": "🌯"}, {"id": "s3", "name": "Chicken Paratha Roll", "cat": "Wraps & Rolls", "desc": "Paratha roll with spicy chicken.", "emoji": "🌯"}, {"id": "s4", "name": "French Fries", "cat": "Sides", "desc": "Golden fries.", "emoji": "🍟"}, {"id": "s5", "name": "Loaded Fries", "cat": "Sides", "desc": "Fries with cheese and sauce.", "emoji": "🍟"}, {"id": "s6", "name": "Chicken Wings", "cat": "Sides", "desc": "Hot and crispy wings.", "emoji": "🍗"}, {"id": "s7", "name": "Chicken Nuggets", "cat": "Sides", "desc": "Crispy nuggets.", "emoji": "🍗"}, {"id": "d1", "name": "Family Deal", "cat": "Deals", "desc": "Two pizzas + fries + drink.", "emoji": "🎁", "deal": true}, {"id": "d2", "name": "Friends Deal", "cat": "Deals", "desc": "Pizza + burgers + drink.", "emoji": "🎁", "deal": true}, {"id": "d3", "name": "Zaiqa Special Deal", "cat": "Deals", "desc": "The house special combo.", "emoji": "🎁", "deal": true}, {"id": "dr1", "name": "Cold Drink 1.5 Ltr", "cat": "Drinks", "desc": "Chilled soft drink.", "emoji": "🥤"}, {"id": "dr2", "name": "Cold Drink (Can)", "cat": "Drinks", "desc": "Chilled soft drink can.", "emoji": "🥤"}, {"id": "dr3", "name": "Mineral Water", "cat": "Drinks", "desc": "Pure mineral water.", "emoji": "💧"}]};
 const MENU = SHOP.menu;
 const LS_CART = 'cart_' + SHOP.code;
 const LS_RATE = 'rate_' + SHOP.code;
