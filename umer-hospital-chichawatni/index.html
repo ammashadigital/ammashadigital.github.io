@@ -186,11 +186,16 @@
       <label for="pnote">What is the problem? (optional)</label>
       <textarea id="pnote" rows="3" placeholder="Briefly describe the problem"></textarea>
       <div style="margin-top:18px;display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" type="button" style="background:#25d366;color:#fff" onclick="bookWhatsApp()">📱 Book Appointment on WhatsApp</button>
         <button class="btn btn-teal" type="button" onclick="makeBooking()">Show My Appointment</button>
         <button class="btn" type="button" style="background:#e2e8f0" onclick="copyBooking()">Copy Details</button>
       </div>
       <div class="summary" id="summary"></div>
-      <p class="note">This form does not send anything by itself. Call <a href="tel:+923216280045"><b>0321-6280045</b></a> to confirm your appointment time.</p>
+      <p class="note">Tap the green button — WhatsApp will open with your appointment already written. Send it, and the hospital will confirm your time. You can also call <a href="tel:+923216280045"><b>0321-6280045</b></a> to book directly.</p>
+      <div class="card" style="margin-top:16px;background:#f0fdfa">
+        <h3 style="margin-top:0">How booking works</h3>
+        <p>1. Fill the form above &nbsp; 2. Send it on WhatsApp &nbsp; 3. The hospital confirms your appointment time &nbsp; 4. Visit at the confirmed time.<br>Consultation fee: please confirm on call.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -248,6 +253,11 @@ function bookingText(){
   var t='Appointment — Umer Hospital, Chichawatni\nName: '+n+'\nPhone: '+p+'\nDoctor: '+d+'\nDate: '+dt;
   if(nt){t+='\nProblem: '+nt;}
   return t;
+}
+function bookWhatsApp(){
+  var t=bookingText();
+  var url='https://wa.me/923216280045?text='+encodeURIComponent(t+'\n\nPlease confirm my appointment time.');
+  window.open(url,'_blank');
 }
 function makeBooking(){
   var s=document.getElementById('summary');
